@@ -1,0 +1,168 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN DIALOG DISCARDABLE  0, 0, 255, 281
+STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION ".ZIP.MP3 をバシバシ作るがよろし。 ヽ(´┏∀┓`)ﾉ"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    GROUPBOX        "出力 zip ファイル(&Z)",IDC_STATIC,7,7,241,64
+    LTEXT           "ファイル名：",IDC_STATIC,13,20,35,8
+    EDITTEXT        IDC_ZIPPATH,52,19,169,13,ES_AUTOHSCROLL
+    LTEXT           "zipアルバム化するファイル一覧（&M）：",IDC_STATIC,7,87,
+                    108,8
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | 
+                    WS_TABSTOP,7,98,198,140
+    CONTROL         "フルパス(&F)",IDC_FULLPATH,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,239,50,10
+    CONTROL         "MP3以外は一覧に追加しない(&E)",IDC_ONLYMP3,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,62,239,109,10
+    PUSHBUTTON      "&Add",IDC_ADD,221,99,27,19
+    PUSHBUTTON      "&Del",IDC_DEL,221,122,27,19
+    PUSHBUTTON      "↑(&U)",IDC_UP,221,143,27,19
+    PUSHBUTTON      "↓(&N)",IDC_DOWN,221,165,27,19
+    DEFPUSHBUTTON   "作成",IDOK,7,260,50,14
+    PUSHBUTTON      "終了",IDCANCEL,68,260,50,14
+    PUSHBUTTON      "debu&g",IDC_DBG,123,77,50,14,NOT WS_VISIBLE
+    LTEXT           "フォルダを省略すると、MP3 の１曲目と同じフォルダに作成します。\nファイル名を省略すると、album.zip.mp3 という名前で作成します。",
+                    IDC_STATIC,52,33,116,34
+    PUSHBUTTON      "ﾊﾞｰｼﾞｮﾝ情報(&V)",IDC_ABOUT,129,260,50,14
+END
+
+IDD_ABOUT DIALOG DISCARDABLE  0, 0, 163, 129
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "バージョン情報"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,108,50,14
+    ICON            IDI_ICON,IDC_STATIC,7,7,20,20
+    LTEXT           "(c) nitoyon 2002",IDC_STATIC,44,18,48,8
+    LTEXT           "http://www.nitoyon.com/",IDC_URL,53,69,73,8,SS_NOTIFY
+    LTEXT           "soft@nitoyon.com",IDC_MAIL,53,79,51,8,SS_NOTIFY
+    GROUPBOX        "MP3アルバムメーカー ver 1.02",IDC_STATIC,31,7,126,88
+    PUSHBUTTON      "&Readme.txt を表示",IDC_README,71,108,61,14,NOT 
+                    WS_VISIBLE
+    LTEXT           "作成した MP3 アルバムは、個人で楽しむだけにしてくださいね。",
+                    IDC_STATIC,53,37,97,19
+    LTEXT           "※",IDC_STATIC,44,37,8,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 248
+        VERTGUIDE, 13
+        VERTGUIDE, 52
+        VERTGUIDE, 221
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 274
+        HORZGUIDE, 196
+        HORZGUIDE, 249
+    END
+
+    IDD_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 156
+        VERTGUIDE, 31
+        VERTGUIDE, 44
+        VERTGUIDE, 53
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 122
+        HORZGUIDE, 37
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON    DISCARDABLE     "icon1.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Cursor
+//
+
+IDC_CURSOR_HAND         CURSOR  DISCARDABLE     "cursor1.cur"
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
