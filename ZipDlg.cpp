@@ -109,6 +109,7 @@ BOOL ZipDlg::OnInitDialog( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	hwndDel		= GetDlgItem( hDlg, IDC_DEL) ;
 
 	// ÉäÉXÉgê›íË
+	SetWindowLong( hwndList, GWL_STYLE, GetWindowLong( hwndList, GWL_STYLE) | LVS_SHAREIMAGELISTS) ;
 	DragAcceptFiles( hwndList, TRUE) ;
 	ListView_DeleteAllItems( hwndList) ;
 	LVCOLUMN lvclm ;
@@ -850,6 +851,7 @@ BOOL ZipDlg::ListMove( BOOL blnUp)
 			if( blnTop)
 			{
 				ListView_SetItemState( hwndList, intIndex + ( blnUp ? -1 : 1), LVIS_FOCUSED, LVIS_FOCUSED) ;
+				ListView_EnsureVisible( hwndList, intIndex + ( blnUp ? -1 : 1), FALSE) ;
 				blnTop = FALSE ;
 			}
 
