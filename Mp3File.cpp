@@ -1,7 +1,7 @@
 
 // Mp3File.cpp
 //============================================================================//
-// 更新：02/12/09(月)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -14,23 +14,16 @@
 /******************************************************************************/
 // コンストラクタ
 //============================================================================//
-// 更新：02/12/09(月)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
 
-Mp3File::Mp3File( File* f)
-: ulSize( 0), lModifiedTime( 0), ulCrc( 0), uiErr( 0)
+Mp3File::Mp3File( const string& s)
+: File( s), ulSize( 0), lModifiedTime( 0), ulCrc( 0), uiErr( 0)
 {
-	File::SetFilePath( ConvertFilePath( f->GetFilePath())) ;
-	intFileNameSize = strlen( f->GetFileName().c_str()) ;
-
-	struct _stat stat ;
-	if( _stat( GetFilePath().c_str(), &stat) == 0)
-	{
-		ulSize = stat.st_size ;
-		lModifiedTime = UnixTime2DosTime(&stat.st_mtime) ;
-	}
+	File::SetFilePath( GetFilePath()) ;
+	SetSaveName( GetFileName()) ;
 }
 
 
@@ -44,6 +37,41 @@ Mp3File::Mp3File( File* f)
 
 Mp3File::~Mp3File() 
 {
+}
+
+
+/******************************************************************************/
+// セーブするときの名前を設定
+//============================================================================//
+// 更新：03/02/09(日)
+// 概要：なし。
+// 補足：なし。
+//============================================================================//
+
+void Mp3File::SetSaveName( const string& s)
+{
+	strSaveName = s ;
+	strSaveNameInZip = ConvertFilePath( s) ;	// ZIPで保存するときのファイル名
+	intSaveNameSize = strSaveNameInZip.size() ;
+}
+
+
+/******************************************************************************/
+// ファイル情報取得
+//============================================================================//
+// 更新：03/02/09(日)
+// 概要：なし。
+// 補足：なし。
+//============================================================================//
+
+void Mp3File::GetFileData()
+{
+	struct _stat stat ;
+	if( _stat( GetFilePath().c_str(), &stat) == 0)
+	{
+		ulSize = stat.st_size ;
+		lModifiedTime = UnixTime2DosTime(&stat.st_mtime) ;
+	}
 }
 
 

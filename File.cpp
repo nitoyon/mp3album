@@ -1,12 +1,13 @@
 
 // File.cpp
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
 
 #include "File.h"
+#include "util.h"
 
 
 /******************************************************************************/
@@ -56,24 +57,14 @@ string File::GetFileName() const
 		return "" ;
 	}
 
-	int i = GetBasePath().size() ;
-
-	// フォルダの場合
-	if( i >= strPath.size())
-	{
-		return "" ;
-	}
-	else
-	{
-		return strPath.substr( i) ;
-	}
+	return ::GetFileName( strPath) ;
 }
 
 
 /******************************************************************************/
 // ベースパス
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -85,36 +76,7 @@ string File::GetBasePath() const
 		return "" ;
 	}
 
-	int	intLastYen = 0 ;
-	char	pszFile[ MAX_PATH] ;
-	char*	pszPointer = pszFile ;
-	strcpy( pszFile, strPath.c_str()) ;
-
-	for( int i = 0; i < strPath.size(); i++)
-	{
-		pszPointer = pszFile + i ;
-
-		if( IsDBCSLeadByte( *pszPointer))
-		{
-			// ２バイト文字なら２進む
-			i++ ;
-			continue ;
-		}
-
-		if( *pszPointer == '\\')
-		{
-			intLastYen = i ;
-		}
-	}
-
-	if( intLastYen > 0)
-	{
-		return strPath.substr( 0, intLastYen + 1) ;	// Yen も含めて返す
-	}
-	else
-	{
-		return "" ;
-	}
+	return strPath.substr( 0, strPath.size() - ::GetFileName( strPath).size()) ;
 }
 
 
@@ -130,4 +92,3 @@ string File::GetFilePath() const
 {
 	return strPath ;
 }
-

@@ -22,7 +22,7 @@
 // ï‚ë´ÅFÇ»ÇµÅB
 //============================================================================//
 
-ProgressDlg::ProgressDlg( vector<File*>* p, const string& s)
+ProgressDlg::ProgressDlg( vector<Mp3File*>* p, const string& s)
 : pvecFile( p), strArchivePath( s)
 {
 }

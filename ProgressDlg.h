@@ -1,7 +1,7 @@
 
 // ProgressDlg.h
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -17,7 +17,7 @@
 //		定義
 /******************************************************************************/
 
-class File ;
+class Mp3File ;
 
 
 /******************************************************************************/
@@ -42,7 +42,7 @@ private:
 	HWND		hwndArchiveProgress ;
 	HWND		hwndFileProgress ;
 
-	vector<File*>*	pvecFile ;
+	vector<Mp3File*>*	pvecFile ;
 	string		strArchivePath ;
 	State		state ;
 
@@ -51,11 +51,11 @@ private:
 
 public:
 // コンストラクタおよびデストラクタ
-	ProgressDlg( vector<File*>*, const string&) ;
+	ProgressDlg( vector<Mp3File*>*, const string&) ;
 	~ProgressDlg() ;
 
 // 取得
-	vector<File*>* GetFileList() const{ return pvecFile ;}
+	vector<Mp3File*>* GetFileList() const{ return pvecFile ;}
 	string GetArchivePath() const{ return strArchivePath ;}
 	State GetState() const{ return state ;}
 	string GetLog() const{ return strLog ;}

@@ -1,7 +1,7 @@
 
 // Mp3File.h
 //============================================================================//
-// 更新：02/12/09(月)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -27,21 +27,28 @@
 
 class Mp3File : public File
 {
+private:
+	string	strSaveName ;
+	string	strSaveNameInZip ;
+
 public:
 	ULONG	ulSize ;
 	LONG	lModifiedTime ;
-	int	intFileNameSize ;
+	int	intSaveNameSize ;
 	ULONG	ulCrc ;
 	LONG	lLocalHeader ;
 	UINT	uiErr ;
 
 public:
 // コンストラクタおよびデストラクタ
-	Mp3File( File*) ;
-	~Mp3File() ;
+	Mp3File( const string&) ;
+	virtual ~Mp3File() ;
 
 // ファイル設定
-	void SetFilePath( const string&){}
+	void SetSaveName( const string&) ;
+	string GetSaveName() const{ return strSaveName ;}
+	string GetSaveNameInZip() const{ return strSaveNameInZip ;}
+	void GetFileData() ;
 
 private:
 	string ConvertFilePath( const string& strPath) ;

@@ -2,7 +2,7 @@
 
 // Zip.cpp
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -24,10 +24,10 @@
 void _cdecl fire( void* p)
 {
 	ProgressDlg* pProgressDlg = (ProgressDlg*)p ;
-	vector<File*>* pvecFileList = pProgressDlg->GetFileList() ;
+	vector<Mp3File*>* pvecFileList = pProgressDlg->GetFileList() ;
 	string strPath = pProgressDlg->GetArchivePath() ;
 
-	// 情報取得
+	// ProgressDlg から情報取得
 	vector<Mp3File*> vecMp3FileList ;
 	int i ;
 	if( !GetFileAttr( &vecMp3FileList, pProgressDlg))
@@ -57,7 +57,7 @@ void _cdecl fire( void* p)
 	}
 	pProgressDlg->SetProgressRange( 0, ulArchiveTotal) ;
 
-	// 順次、解凍
+	// 順次、圧縮
 	FILE* fzip ;
 	fzip = fopen( strPath.c_str(), "wb") ;
 	if( !fzip)
@@ -186,21 +186,22 @@ void _cdecl fire( void* p)
 /******************************************************************************/
 // ファイル情報取得
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
 
 BOOL GetFileAttr( vector<Mp3File*>* pvecMp3FileList, ProgressDlg* pProgressDlg)
 {
-	vector<File*>* pvecFileList = pProgressDlg->GetFileList() ;
+	vector<Mp3File*>* pvecFileList = pProgressDlg->GetFileList() ;
 	int intCount = pvecFileList->size() ;
 
 	// １つずつ取得
 	BOOL blnSuccess = TRUE ;
 	for( int i = 0; i < intCount; i++)
 	{
-		Mp3File* pMp3File = new Mp3File( (File*)pvecFileList->at( i)) ;
+		Mp3File* pMp3File = pvecFileList->at( i) ;
+		pMp3File->GetFileData() ;
 		if( pMp3File->ulSize == 0 && pMp3File->lModifiedTime == 0)
 		{
 			pMp3File->uiErr = ERR_ATTR_UNREADABLE ;
@@ -217,7 +218,7 @@ BOOL GetFileAttr( vector<Mp3File*>* pvecMp3FileList, ProgressDlg* pProgressDlg)
 /******************************************************************************/
 // ヘッダ出力
 //============================================================================//
-// 更新：02/12/09(月)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -225,7 +226,7 @@ BOOL GetFileAttr( vector<Mp3File*>* pvecMp3FileList, ProgressDlg* pProgressDlg)
 BOOL OutputLocalFileHeader( Mp3File* pMp3File, FILE* fzip)
 {
 	char pszFileName[ _MAX_FNAME * 3] ;	// ファイル名エンコードで最大３倍になる
-	strcpy( pszFileName, pMp3File->GetFileName().c_str()) ;
+	strcpy( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
 
 	// ヘッダの出力 (zipfile.c (putlocal) : 1040行目) 
 	// http://www.goice.co.jp/member/mo/formats/zip.html
@@ -237,7 +238,7 @@ BOOL OutputLocalFileHeader( Mp3File* pMp3File, FILE* fzip)
 	PUTLG( 0, fzip) ;				// crc	= 0 [CRC情報。あとで上書き]
 	PUTLG( pMp3File->ulSize, fzip);			// siz
 	PUTLG( pMp3File->ulSize, fzip);			// len
-	PUTSH( pMp3File->intFileNameSize, fzip) ;	// nam			[length of iname]
+	PUTSH( pMp3File->intSaveNameSize, fzip) ;	// nam			[length of iname]
 	PUTSH( 0, fzip) ;				// ext
 	fputs( pszFileName, fzip) ;
 
@@ -248,7 +249,7 @@ BOOL OutputLocalFileHeader( Mp3File* pMp3File, FILE* fzip)
 /******************************************************************************/
 // Central Directory 出力
 //============================================================================//
-// 更新：02/12/09(月)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -256,7 +257,7 @@ BOOL OutputLocalFileHeader( Mp3File* pMp3File, FILE* fzip)
 BOOL OutputCentralDirectory( Mp3File* pMp3File, FILE* fzip)
 {
 	char pszFileName[ _MAX_FNAME * 3] ;	// ファイル名エンコードで最大３倍になる
-	strcpy( pszFileName, pMp3File->GetFileName().c_str()) ;
+	strcpy( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
 
 	PUTLG( 0x02014b50L, fzip) ;			// 
 	PUTSH( 0x0B17, fzip) ;				// Version made by = 0x0B17
@@ -267,7 +268,7 @@ BOOL OutputCentralDirectory( Mp3File* pMp3File, FILE* fzip)
 	PUTLG( pMp3File->ulCrc, fzip) ;			// crc	= 0 [CRC情報。あとで上書き]
 	PUTLG( pMp3File->ulSize, fzip);			// siz
 	PUTLG( pMp3File->ulSize, fzip);			// len
-	PUTSH( pMp3File->intFileNameSize, fzip) ;	// nam			[length of iname]
+	PUTSH( pMp3File->intSaveNameSize, fzip) ;	// nam			[length of iname]
 	PUTSH( 0, fzip) ;				// Extra Fild Length
 	PUTSH( 0, fzip) ;				// File Comment Length
 	PUTSH( 0, fzip) ;				// Disk Number		[???　zip32.dll では必ず 0]

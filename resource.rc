@@ -40,16 +40,14 @@ BEGIN
                     108,8
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
                     LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | 
-                    WS_TABSTOP,7,73,202,140
-    CONTROL         "フルパス(&F)",IDC_FULLPATH,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,214,50,10
+                    WS_TABSTOP,7,73,241,140
     CONTROL         "MP3以外は一覧に追加しない(&E)",IDC_ONLYMP3,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,62,214,109,10
-    PUSHBUTTON      "&Add",IDC_ADD,221,74,27,19
-    PUSHBUTTON      "&Del",IDC_DEL,221,97,27,19
-    PUSHBUTTON      "↑(&U)",IDC_UP,221,118,27,19
-    PUSHBUTTON      "↓(&N)",IDC_DOWN,221,140,27,19
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,216,109,10
+    PUSHBUTTON      "＋",IDC_ADD,117,214,12,14
     DEFPUSHBUTTON   "作成",IDOK,7,235,50,14
+    PUSHBUTTON      "－",IDC_DEL,132,214,12,14
+    PUSHBUTTON      "↑",IDC_UP,147,214,12,14
+    PUSHBUTTON      "↓",IDC_DOWN,162,214,12,14
     PUSHBUTTON      "終了",IDCANCEL,65,235,50,14
     PUSHBUTTON      "ﾊﾞｰｼﾞｮﾝ情報(&V)",IDC_ABOUT,181,235,50,14
     PUSHBUTTON      "設定(&S)",IDC_SETTING,123,235,50,14
@@ -65,7 +63,7 @@ BEGIN
     LTEXT           "(c) nitoyon 2003",IDC_STATIC,44,18,48,8
     LTEXT           "http://www.nitoyon.com/",IDC_URL,53,69,73,8,SS_NOTIFY
     LTEXT           "soft@nitoyon.com",IDC_MAIL,53,79,51,8,SS_NOTIFY
-    GROUPBOX        "MP3アルバムメーカー ver 1.1.1",IDC_STATIC,31,7,126,88
+    GROUPBOX        "MP3アルバムメーカー ver 1.2.0",IDC_STATIC,31,7,126,88
     PUSHBUTTON      "&Readme.txt を表示",IDC_README,71,108,61,14,NOT 
                     WS_VISIBLE
     LTEXT           "作成した MP3 アルバムは、個人で楽しむだけにしてくださいね。",
@@ -132,6 +130,18 @@ BEGIN
     PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,249,194,50,14
 END
 
+IDD_FOLDERNAME DIALOG DISCARDABLE  0, 0, 187, 81
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "フォルダ名の設定"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    EDITTEXT        IDC_EDIT,7,36,173,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,7,60,50,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,65,60,50,14
+    LTEXT           "ZIP に格納するときのフォルダ名を設定します。\n   例） DISK1\\",
+                    IDC_STATIC,7,7,147,20
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -193,6 +203,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 208
     END
+
+    IDD_FOLDERNAME, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 74
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -251,6 +269,55 @@ BEGIN
     IDC_COMBO, 0x403, 9, 0
 0x7a2e, 0x7069, 0x6d2e, 0x3370, "\000" 
     0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_POPMENU MENU DISCARDABLE 
+BEGIN
+    POPUP "dummy"
+    BEGIN
+        MENUITEM "追加(&A)",                    IDM_ADD
+        MENUITEM "削除(&D)\tDel",               IDM_DEL
+        MENUITEM "フォルダ名設定(&F)",          IDM_SETFOLDER
+        MENUITEM SEPARATOR
+        MENUITEM "上に移動(&U)\tAlt + ↑",      IDM_UP
+        MENUITEM "下に移動(&D)\tAlt + ↓",      IDM_DOWN
+        MENUITEM SEPARATOR
+        MENUITEM "パスで並び替え(&P)",          IDM_SORTPATH
+        MENUITEM "ファイル名で並び替え(&S)",    IDM_SORTFILE
+        MENUITEM "&ZIP 保存時の名前で並び替え", IDM_SORTZIP
+    END
+END
+
+IDR_MENU1 MENU DISCARDABLE 
+BEGIN
+    POPUP "ファイル(&F)"
+    BEGIN
+        MENUITEM ".ZIP.MP3 保存(&S)",           IDM_SAVE
+        MENUITEM "終了(&X)",                    IDM_EXIT
+    END
+    POPUP "編集(&E)"
+    BEGIN
+        MENUITEM "ファイル追加(&A)",            IDM_ADD
+        MENUITEM "リストから削除(&D)\tDel",     IDM_DEL
+        MENUITEM "フォルダ名設定(&F)",          IDM_SETFOLDER
+        MENUITEM SEPARATOR
+        MENUITEM "上に移動(&U)\tAlt + ↑",      IDM_UP
+        MENUITEM "下に移動(&D)\tAlt + ↓",      IDM_DOWN
+        MENUITEM SEPARATOR
+        MENUITEM "パスで並び替え(&P)",          IDM_SORTPATH
+        MENUITEM "ファイル名で並び替え(&S)",    IDM_SORTFILE
+        MENUITEM "&ZIP 保存時の名前で並び替え", IDM_SORTZIP
+    END
+    POPUP "ヘルプ(&H)"
+    BEGIN
+        MENUITEM "バージョン情報(&A)",          ID_MENUITEM40011
+    END
 END
 
 #endif    // 日本語 resources

@@ -2,7 +2,7 @@
 
 // ZipDlg.h
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/02/09(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -18,7 +18,7 @@
 //		定義
 /******************************************************************************/
 
-class File ;
+class Mp3File ;
 
 
 /******************************************************************************/
@@ -43,7 +43,7 @@ private:
 	WNDPROC		wpcList ;
 	HINSTANCE	hInstance ;
 
-	vector<File*>	vecFileList ;
+	vector<Mp3File*>	vecFileList ;
 
 public:
 // コンストラクタおよびデストラクタ
@@ -51,14 +51,17 @@ public:
 	~ZipDlg() ;
 
 // リスト操作
-	BOOL ListAdd( File*, int intNum) ;
+	BOOL ListAdd( Mp3File*, int intNum) ;
+	BOOL ZipDlg::ListAddFileDlg() ;
 	BOOL ListDel() ;
 	BOOL ListMove( BOOL) ;
 	void ListReload( BOOL blnReload = FALSE) ;
+	void ListSetFolder() ;
 
 // メッセージハンドラ
 private:
 	DECLARE_DLG_MESSAGE_MAP( ZipDlgProc)
+	DECLARE_DLG_MESSAGE_MAP( FileNameDlgProc)
 	DECLARE_SUBCLASS_MESSAGE_MAP( ListProc)
 
 	BOOL OnInitDialog	( HWND, WPARAM, LPARAM) ;

@@ -10,7 +10,7 @@
 #include "ZipDlg.h"	// for BrowseProc
 #include "Profile.h"
 #include "resource.h"
-#include "File.h"
+#include "Mp3File.h"
 
 
 /******************************************************************************/
@@ -241,7 +241,7 @@ BOOL SettingDlg::OnBrowseBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 		SHGetPathFromIDList( idlist, pszPath) ;
 		CoTaskMemFree( idlist) ;
 
-		File file( pszPath) ;
+		Mp3File file( pszPath) ;
 		if( file.GetFileName() != "")
 		{
 			string s = string( pszPath) + "\\" ;
