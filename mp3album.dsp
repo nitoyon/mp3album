@@ -106,10 +106,6 @@ SOURCE=.\resource.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\zip32\zip.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\ZipDlg.h
 # End Source File
 # End Group
@@ -159,6 +155,10 @@ SOURCE=.\mp3album.cpp
 # Begin Source File
 
 SOURCE=.\Mp3File.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Zip.cpp
 # End Source File
 # Begin Source File
 

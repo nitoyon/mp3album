@@ -17,11 +17,6 @@
 //		íËã`
 /******************************************************************************/
 
-#define PUTSH(a,f)	{putc((char)((a) & 0xff),(f)); putc((char)((a) >> 8),(f));}
-#define PUTLG(a,f)	{PUTSH((a) & 0xffff,(f)) PUTSH((a) >> 16,(f))}
-#define SBSZ		16384
-
-class Mp3File ;
 class File ;
 
 
@@ -39,11 +34,12 @@ int CALLBACK ListSortProc( LPARAM lp1, LPARAM lp2, LPARAM lp3) ;
 class ZipDlg
 {
 private:
-	HWND	m_hWnd ;
-	HWND	hwndList ;
-	HWND	hwndOk ;
-	HWND	hwndDel ;
-	WNDPROC	wpcList ;
+	HWND		m_hWnd ;
+	HWND		hwndList ;
+	HWND		hwndOk ;
+	HWND		hwndDel ;
+	WNDPROC		wpcList ;
+	HINSTANCE	hInstance ;
 
 	BOOL	blnFullPath ;
 	BOOL	blnOnlyMp3 ;
@@ -66,8 +62,9 @@ private:
 	DECLARE_DLG_MESSAGE_MAP( ZipDlgProc)
 	DECLARE_SUBCLASS_MESSAGE_MAP( ListProc)
 
-	LRESULT OnDropFiles	( HWND, WPARAM, LPARAM) ;
 	BOOL OnInitDialog	( HWND, WPARAM, LPARAM) ;
+	LRESULT OnDropFiles	( HWND, WPARAM, LPARAM) ;
+	BOOL OnSize		( HWND, WPARAM, LPARAM) ;
 
 	BOOL OnOk		( HWND, WPARAM, LPARAM) ;
 	BOOL OnCancel		( HWND, WPARAM, LPARAM) ;
@@ -76,17 +73,12 @@ private:
 	BOOL OnFullPathChanged	( HWND, WPARAM, LPARAM) ;
 	BOOL OnOnlyMp3Changed	( HWND, WPARAM, LPARAM) ;
 
+	BOOL OnBrowseBtn	( HWND, WPARAM, LPARAM) ;
 	BOOL OnUpBtn		( HWND, WPARAM, LPARAM) ;
 	BOOL OnDownBtn		( HWND, WPARAM, LPARAM) ;
 	BOOL OnAddBtn		( HWND, WPARAM, LPARAM) ;
 	BOOL OnDelBtn		( HWND, WPARAM, LPARAM) ;
 	BOOL OnListNotify	( HWND, WPARAM, LPARAM) ;
-
-// à≥èk
-	BOOL fire() ;
-	BOOL OutputLocalFileHeader( Mp3File*, FILE*) ;
-	BOOL OutputCentralDirectory( Mp3File*, FILE*) ;
-	BOOL OutputEndCentralDirectory( int, ULONG, ULONG, FILE*) ;
 } ;
 
 #endif

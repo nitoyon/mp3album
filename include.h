@@ -21,6 +21,7 @@
 #include <mbstring.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <shlobj.h>
 
 using namespace std ;
 

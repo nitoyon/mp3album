@@ -20,7 +20,7 @@
 //============================================================================//
 
 Mp3File::Mp3File( File* f)
-: ulSize( 0), lModifiedTime( 0), ulCrc( 0)
+: ulSize( 0), lModifiedTime( 0), ulCrc( 0), uiErr( 0)
 {
 	File::SetFilePath( ConvertFilePath( f->GetFilePath())) ;
 	intFileNameSize = strlen( f->GetFileName().c_str()) ;

@@ -33,12 +33,12 @@ FONT 9, "ＭＳ Ｐゴシック"
 BEGIN
     GROUPBOX        "出力 zip ファイル(&Z)",IDC_STATIC,7,7,241,64
     LTEXT           "ファイル名：",IDC_STATIC,13,20,35,8
-    EDITTEXT        IDC_ZIPPATH,52,19,169,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ZIPPATH,52,19,157,13,ES_AUTOHSCROLL
     LTEXT           "zipアルバム化するファイル一覧（&M）：",IDC_STATIC,7,87,
                     108,8
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
                     LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | 
-                    WS_TABSTOP,7,98,198,140
+                    WS_TABSTOP,7,98,202,140
     CONTROL         "フルパス(&F)",IDC_FULLPATH,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,7,239,50,10
     CONTROL         "MP3以外は一覧に追加しない(&E)",IDC_ONLYMP3,"Button",
@@ -48,11 +48,12 @@ BEGIN
     PUSHBUTTON      "↑(&U)",IDC_UP,221,143,27,19
     PUSHBUTTON      "↓(&N)",IDC_DOWN,221,165,27,19
     DEFPUSHBUTTON   "作成",IDOK,7,260,50,14
-    PUSHBUTTON      "終了",IDCANCEL,68,260,50,14
-    PUSHBUTTON      "debu&g",IDC_DBG,123,77,50,14,NOT WS_VISIBLE
+    PUSHBUTTON      "終了",IDCANCEL,67,260,50,14
     LTEXT           "フォルダを省略すると、MP3 の１曲目と同じフォルダに作成します。\nファイル名を省略すると、album.zip.mp3 という名前で作成します。",
                     IDC_STATIC,52,33,116,34
-    PUSHBUTTON      "ﾊﾞｰｼﾞｮﾝ情報(&V)",IDC_ABOUT,129,260,50,14
+    PUSHBUTTON      "ﾊﾞｰｼﾞｮﾝ情報(&V)",IDC_ABOUT,187,260,50,14
+    PUSHBUTTON      "設定(&S)",IDC_SETTING,127,260,50,14
+    PUSHBUTTON      "&.",IDC_BROWSE,221,18,17,14
 END
 
 IDD_ABOUT DIALOG DISCARDABLE  0, 0, 163, 129

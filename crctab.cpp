@@ -11,7 +11,7 @@
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-/* $Id: crctab.cpp,v 1.1 2002/12/08 23:26:17 nitoyon Exp $ */
+/* $Id: crctab.cpp,v 1.2 2002/12/09 04:39:42 nitoyon Exp $ */
 
 /*
   Generate a table for a byte-wise 32-bit CRC calculation on the polynomial:
@@ -40,7 +40,7 @@
 
 #define __CRCTAB_C      /* identifies this source module */
 
-#include "zip.h"
+#include "infozip.h"
 
 #if (!defined(USE_ZLIB) || defined(USE_OWN_CRCTAB))
 

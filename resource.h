@@ -4,6 +4,7 @@
 //
 #define IDC_DBG                         3
 #define IDC_ABOUT                       4
+#define IDC_SETTING                     5
 #define IDD_MAIN                        101
 #define IDI_ICON                        102
 #define IDD_ABOUT                       103
@@ -13,6 +14,7 @@
 #define IDC_UP                          1003
 #define IDC_DOWN                        1004
 #define IDC_ADD                         1005
+#define IDC_BROWSE                      1006
 #define IDC_ZIPPATH                     1013
 #define IDC_FULLPATH                    1016
 #define IDC_ONLYMP3                     1017
