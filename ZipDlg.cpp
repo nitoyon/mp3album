@@ -219,12 +219,17 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 			}
 		}
 	}
+	// '.' がない場合
+	if( File( strPath).GetFileName().find( '.') == string::npos)
+	{
+		strPath += Profile::strExtension ;
+	}
 	if( File( strPath).GetBasePath() == "")	// ディレクトリの指定がない場合
 	{
 		switch( Profile::intFolder)
 		{
 			case Profile::ZipFolder::SET:
-				strPath += Profile::strFolder ;
+				strPath = Profile::strFolder + strPath ;
 				break ;
 
 			case Profile::ZipFolder::ONE:
@@ -273,11 +278,6 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 				break ;
 			}
 		}
-	}
-	// '.' がない場合
-	if( File( strPath).GetFileName().find( '.') == string::npos)
-	{
-		strPath += Profile::strExtension ;
 	}
 
 	// 存在確認
@@ -493,7 +493,7 @@ BOOL ZipDlg::OnDownBtn( HWND, WPARAM, LPARAM)
 BOOL ZipDlg::OnAddBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 {
 	OPENFILENAME	ofn ;
-	char		pszFileBuf[ MAX_PATH] = "" ;
+	char		pszFileBuf[ MAX_PATH * 256] = "" ;
 
 	ZeroMemory( (LPVOID)&ofn, sizeof(OPENFILENAME) );
 	ofn.lStructSize = sizeof(OPENFILENAME);
@@ -501,7 +501,7 @@ BOOL ZipDlg::OnAddBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	ofn.lpstrFilter = "MP3(*.mp3)\0*.mp3\0すべてのファイル\0*.*\0\0";
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_EXPLORER | OFN_ALLOWMULTISELECT ;
 	ofn.lpstrFile = pszFileBuf;
-	ofn.nMaxFile = MAX_PATH ;
+	ofn.nMaxFile = MAX_PATH * 256 ;
 	if( !GetOpenFileName( &ofn))
 	{
 		return 0 ;

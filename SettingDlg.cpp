@@ -127,6 +127,10 @@ BOOL SettingDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	Profile::blnDisplayLog = IsDlgButtonChecked( hDlg, IDC_DISPLAYLOG) ;
 	Profile::blnFailLogOnly = IsDlgButtonChecked( hDlg, IDC_FAILLOGONLY) ;
 	Profile::blnConfirmOverwrite = IsDlgButtonChecked( hDlg, IDC_CONFIRMOVERWRITE) ;
+
+	GetDlgItemText( hDlg, IDC_COMBO, pszPath, MAX_PATH + 1) ;
+	Profile::strExtension = pszPath ;
+
 	Profile::Save() ;
 
 	EndDialog( hDlg, TRUE) ;

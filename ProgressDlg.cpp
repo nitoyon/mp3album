@@ -73,6 +73,12 @@ BOOL ProgressDlg::OnInitDialog( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	hwndArchiveProgress = GetDlgItem( hDlg, IDC_ARCHIVEPROGRESS) ;
 	hwndFileProgress = GetDlgItem( hDlg, IDC_FILEPROGRESS) ;
 
+	// パスが長いときに途中をカット
+	HWND h = GetDlgItem( hDlg, IDC_ARCHIVENAME) ;
+	SetWindowLong( h, GWL_STYLE, GetWindowLong( h, GWL_STYLE) | SS_PATHELLIPSIS) ;
+	h = GetDlgItem( hDlg, IDC_FILENAME) ;
+	SetWindowLong( h, GWL_STYLE, GetWindowLong( h, GWL_STYLE) | SS_PATHELLIPSIS) ;
+
 	SetDlgItemText( hDlg, IDC_ARCHIVENAME, strArchivePath.c_str()) ;
 
 	if( _beginthread( fire, 0, (void*)this) != -1)

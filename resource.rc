@@ -62,10 +62,10 @@ FONT 9, "ＭＳ Ｐゴシック"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,7,108,50,14
     ICON            IDI_ICON,IDC_STATIC,7,7,20,20
-    LTEXT           "(c) nitoyon 2002",IDC_STATIC,44,18,48,8
+    LTEXT           "(c) nitoyon 2003",IDC_STATIC,44,18,48,8
     LTEXT           "http://www.nitoyon.com/",IDC_URL,53,69,73,8,SS_NOTIFY
     LTEXT           "soft@nitoyon.com",IDC_MAIL,53,79,51,8,SS_NOTIFY
-    GROUPBOX        "MP3アルバムメーカー ver 1.1.0",IDC_STATIC,31,7,126,88
+    GROUPBOX        "MP3アルバムメーカー ver 1.1.1",IDC_STATIC,31,7,126,88
     PUSHBUTTON      "&Readme.txt を表示",IDC_README,71,108,61,14,NOT 
                     WS_VISIBLE
     LTEXT           "作成した MP3 アルバムは、個人で楽しむだけにしてくださいね。",

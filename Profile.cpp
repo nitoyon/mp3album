@@ -68,7 +68,7 @@ void Profile::Save()
 	// ê›íË
 	WriteProfile( pszFile, "DefaultPath", "folder", intFolder) ;
 	WriteProfile( pszFile, "DefaultPath", "file", intFile) ;
-	WritePrivateProfileString( "DefaultPath", "Extension", ".zip.mp3", pszFile) ;
+	WritePrivateProfileString( "DefaultPath", "Extension", strExtension.c_str(), pszFile) ;
 	WritePrivateProfileString( "DefaultPath", "FilePath", strFile.c_str(), pszFile) ;
 	WritePrivateProfileString( "DefaultPath", "FolderPath", strFolder.c_str(), pszFile) ;
 	WritePrivateProfileString( "Dialog", "DisplayLog", blnDisplayLog ? "yes" : "no", pszFile) ;
