@@ -2,7 +2,7 @@
 
 // ZipDlg.cpp
 //============================================================================//
-// 更新：03/02/09(日)
+// 更新：03/04/03(木)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -226,7 +226,7 @@ BOOL ZipDlg::OnSize( HWND hDlg, WPARAM wParam, LPARAM lParam)
 /******************************************************************************/
 // OK
 //============================================================================//
-// 更新：03/02/09(日)
+// 更新：03/04/03(木)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -283,6 +283,18 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 			{
 				string strDir = vecFileList[ 0]->GetFilePath() ;
 				strDir = strDir.substr( 0, strDir.rfind( '\\') + 1) ;
+				strPath = strDir + strPath ;
+				break ;
+			}
+
+			case Profile::ZipFolder::TWO:
+			{
+				string strDir = vecFileList[ 0]->GetFilePath() ;
+				strDir = strDir.substr( 0, strDir.rfind( '\\')) ;
+				if(strDir.rfind( '\\') != string::npos)
+				{
+					strDir = strDir.substr( 0, strDir.rfind( '\\') + 1) ;
+				}
 				strPath = strDir + strPath ;
 				break ;
 			}
@@ -353,6 +365,17 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	else if( Profile::blnDisplayLog && !Profile::blnFailLogOnly)
 	{
 		MessageBox( hDlg, ( strPath + " の作成に成功しました\n---\n" + pd.GetLog()).c_str(), APP_NAME, MB_OK) ;
+	}
+
+	// 成功時、全削除
+	if(blnResult && Profile::blnClearOnSuccess)
+	{
+		for(int i = 0; i < vecFileList.size(); i++)
+		{
+			delete vecFileList[ i];
+		}
+		vecFileList.clear();
+		ListView_DeleteAllItems( hwndList) ;
 	}
 
 	return TRUE ;
@@ -430,7 +453,7 @@ BOOL ZipDlg::OnOnlyMp3Changed( HWND hDlg, WPARAM wParam, LPARAM lParam)
 /******************************************************************************/
 // ブラウズボタン
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/04/03(木)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -438,8 +461,17 @@ BOOL ZipDlg::OnOnlyMp3Changed( HWND hDlg, WPARAM wParam, LPARAM lParam)
 BOOL ZipDlg::OnBrowseBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 {
 	char pszZipPath[ MAX_PATH + 1] ;
+
+	// 既に入力されているパスを取得
 	GetDlgItemText( m_hWnd, IDC_ZIPPATH, pszZipPath, MAX_PATH) ;
-	const char* pszPath = File( pszZipPath).GetBasePath().c_str() ;
+	char pszPath[ MAX_PATH + 1];
+	strcpy( pszPath, GetDirName( pszZipPath).c_str()) ;
+
+	// 一曲目のパスを取得
+	if( strcmp( pszPath, "") == 0 && vecFileList.size() != 0)
+	{
+		strcpy( pszPath, GetDirName( vecFileList[ 0]->GetFilePath()).c_str());
+	}
 
 	BROWSEINFO bi ;
 	bi.hwndOwner		= hDlg ;
@@ -771,7 +803,7 @@ BOOL ZipDlg::ListAddFileDlg()
 /******************************************************************************/
 // リスト削除
 //============================================================================//
-// 更新：02/12/09(月)
+// 更新：03/04/03(木)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -785,9 +817,10 @@ BOOL ZipDlg::ListDel()
 		// 選択されていた場合
 		if( ListView_GetItemState( hwndList, intCount - i - 1, LVIS_SELECTED))
 		{
-			// 削除
+			// 後ろの要素から削除
 			ListView_DeleteItem( hwndList, intCount - i - 1) ;
 			vector<Mp3File*>::iterator p = vecFileList.begin() + intCount - i - 1 ;
+			delete vecFileList[ intCount - i - 1] ;
 			vecFileList.erase( p) ;
 
 			continue ;

@@ -161,8 +161,6 @@ void _cdecl fire( void* p)
 		OutputCentralDirectory( vecMp3FileList[ i], fzip) ;
 		intFileNum++ ;
 
-		delete vecMp3FileList[ i] ;
-
 		if( pProgressDlg->GetState() == ProgressDlg::State::CANCELED)
 		{
 			fclose( fzip) ;

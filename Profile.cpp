@@ -33,6 +33,7 @@ string			Profile::strExtension = "" ;
 BOOL			Profile::blnDisplayLog = FALSE ;
 BOOL			Profile::blnFailLogOnly = FALSE ;
 BOOL			Profile::blnConfirmOverwrite = FALSE ;
+BOOL			Profile::blnClearOnSuccess = FALSE ;
 
 
 
@@ -74,6 +75,7 @@ void Profile::Save()
 	WritePrivateProfileString( "Dialog", "DisplayLog", blnDisplayLog ? "yes" : "no", pszFile) ;
 	WritePrivateProfileString( "Dialog", "FailLogOnly", blnFailLogOnly ? "yes" : "no", pszFile) ;
 	WritePrivateProfileString( "Dialog", "ConfirmOverwrite", blnConfirmOverwrite ? "yes" : "no", pszFile) ;
+	WritePrivateProfileString( "other", "ClearOnSuccess", blnClearOnSuccess ? "yes" : "no", pszFile) ;
 }
 
 
@@ -122,6 +124,8 @@ void Profile::Load()
 	blnFailLogOnly = ( strcmp( pszBuf, "yes") == 0 ? TRUE : FALSE) ;
 	GetPrivateProfileString( "Dialog", "ConfirmOverwrite", "yes", pszBuf, MAX_PATH, pszFile) ;
 	blnConfirmOverwrite = ( strcmp( pszBuf, "yes") == 0 ? TRUE : FALSE) ;
+	GetPrivateProfileString( "other", "ClearOnSuccess", "yes", pszBuf, MAX_PATH, pszFile) ;
+	blnClearOnSuccess = ( strcmp( pszBuf, "yes") == 0 ? TRUE : FALSE) ;
 }
 
 

@@ -63,7 +63,7 @@ BEGIN
     LTEXT           "(c) nitoyon 2003",IDC_STATIC,44,18,48,8
     LTEXT           "http://www.nitoyon.com/",IDC_URL,53,69,73,8,SS_NOTIFY
     LTEXT           "soft@nitoyon.com",IDC_MAIL,53,79,51,8,SS_NOTIFY
-    GROUPBOX        "MP3アルバムメーカー ver 1.2.1",IDC_STATIC,31,7,126,88
+    GROUPBOX        "MP3アルバムメーカー ver 1.2.2",IDC_STATIC,31,7,126,88
     PUSHBUTTON      "&Readme.txt を表示",IDC_README,71,108,61,14,NOT 
                     WS_VISIBLE
     LTEXT           "作成した MP3 アルバムは、個人で楽しむだけにしてくださいね。",
@@ -95,30 +95,32 @@ BEGIN
                     ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
 END
 
-IDD_SETTING DIALOG DISCARDABLE  0, 0, 306, 215
+IDD_SETTING DIALOG DISCARDABLE  0, 0, 307, 227
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "設定"
 FONT 9, "ＭＳ Ｐゴシック"
 BEGIN
-    GROUPBOX        "デフォルトのフォルダ(&F)",IDC_STATIC,7,7,143,82
+    GROUPBOX        "デフォルトの出力フォルダ(&F)",IDC_STATIC,7,7,143,95
     CONTROL         "指定したフォルダ",IDC_FOLDERSET,"Button",
                     BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,21,73,8
     CONTROL         "１曲目と同じ場所",IDC_FOLDER1,"Button",
                     BS_AUTORADIOBUTTON,14,52,65,10
+    CONTROL         "１曲目の１つ上のフォルダ",IDC_FOLDER2,"Button",
+                    BS_AUTORADIOBUTTON,14,68,90,10
     CONTROL         "圧縮時に指定",IDC_FOLDERONZIP,"Button",
-                    BS_AUTORADIOBUTTON,14,69,57,10
+                    BS_AUTORADIOBUTTON,14,84,57,10
     EDITTEXT        IDC_FOLDERNAME,25,33,105,13,ES_AUTOHSCROLL | WS_GROUP
     PUSHBUTTON      "&...",IDC_BROWSE,135,33,9,13
-    GROUPBOX        "デフォルトのファイル名(&N)",IDC_STATIC,7,104,143,58
+    GROUPBOX        "デフォルトのファイル名(&N)",IDC_STATIC,7,116,143,58
     CONTROL         "指定したファイル名",IDC_FILESET,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,115,109,8
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,127,109,8
     CONTROL         "１曲目の親フォルダ名",IDC_FILEPARENT,"Button",
-                    BS_AUTORADIOBUTTON,14,144,79,10
-    EDITTEXT        IDC_FILENAME,25,125,119,13,ES_AUTOHSCROLL | WS_GROUP
-    GROUPBOX        "デフォルトの拡張子(&E)",IDC_STATIC,7,173,143,35
-    COMBOBOX        IDC_COMBO,14,186,61,40,CBS_DROPDOWN | CBS_SORT | 
+                    BS_AUTORADIOBUTTON,14,156,79,10
+    EDITTEXT        IDC_FILENAME,25,137,119,13,ES_AUTOHSCROLL | WS_GROUP
+    GROUPBOX        "デフォルトの拡張子(&E)",IDC_STATIC,7,185,143,35
+    COMBOBOX        IDC_COMBO,14,200,61,40,CBS_DROPDOWN | CBS_SORT | 
                     WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "ダイアログ",IDC_STATIC,159,7,140,82
+    GROUPBOX        "ダイアログ",IDC_STATIC,160,7,140,95
     CONTROL         "圧縮後にログを表示する",IDC_DISPLAYLOG,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,166,20,87,10
     CONTROL         "失敗時のみ",IDC_FAILLOGONLY,"Button",BS_AUTOCHECKBOX | 
@@ -126,8 +128,11 @@ BEGIN
     CONTROL         "同名の出力ファイルがある場合は上書きの確認をする",
                     IDC_CONFIRMOVERWRITE,"Button",BS_AUTOCHECKBOX | BS_TOP | 
                     BS_MULTILINE | WS_TABSTOP,166,59,126,18
-    DEFPUSHBUTTON   "OK",IDOK,190,194,57,14
-    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,249,194,50,14
+    CONTROL         "圧縮成功時は、ファイル一覧をクリアする。",
+                    IDC_CLEARONSUCCESS,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    BS_MULTILINE | WS_TABSTOP,160,121,140,18
+    DEFPUSHBUTTON   "OK",IDOK,190,206,57,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,250,206,50,14
 END
 
 IDD_FOLDERNAME DIALOG DISCARDABLE  0, 0, 187, 81
@@ -194,14 +199,14 @@ BEGIN
     IDD_SETTING, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 299
+        RIGHTMARGIN, 300
         VERTGUIDE, 14
         VERTGUIDE, 25
         VERTGUIDE, 144
         VERTGUIDE, 150
         VERTGUIDE, 166
         TOPMARGIN, 7
-        BOTTOMMARGIN, 208
+        BOTTOMMARGIN, 220
     END
 
     IDD_FOLDERNAME, DIALOG

@@ -2,7 +2,7 @@
 // Profile.h
 // アプリケーションの設定
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/04/03(木)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -25,7 +25,7 @@ private:
 public:
 	enum ZipFolder
 	{
-		SET, ONE, ONZIP
+		SET, ONE, ONZIP, TWO
 	} ;
 
 	enum ZipFile
@@ -50,6 +50,7 @@ public:
 	static BOOL		blnDisplayLog ;
 	static BOOL		blnFailLogOnly ;
 	static BOOL		blnConfirmOverwrite ;
+	static BOOL		blnClearOnSuccess ;
 
 // 読み書き
 	static void Save() ;

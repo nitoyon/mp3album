@@ -1,7 +1,7 @@
 
 // SettingDlg.cpp
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/04/03(木)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -11,6 +11,7 @@
 #include "Profile.h"
 #include "resource.h"
 #include "Mp3File.h"
+#include "util.h"
 
 
 /******************************************************************************/
@@ -47,7 +48,7 @@ SettingDlg::~SettingDlg()
 /******************************************************************************/
 // メッセージマップ定義
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/04/03(木)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -60,6 +61,7 @@ BEGIN_DLG_MESSAGE_MAP( SettingDlgProc, SettingDlg)
 
 		ON_COMMAND( IDC_FOLDERSET	, OnFolderRdo)
 		ON_COMMAND( IDC_FOLDER1		, OnFolderRdo)
+		ON_COMMAND( IDC_FOLDER2		, OnFolderRdo)
 		ON_COMMAND( IDC_FOLDERONZIP	, OnFolderRdo)
 		ON_COMMAND( IDC_FILESET		, OnFileRdo)
 		ON_COMMAND( IDC_FILEPARENT	, OnFileRdo)
@@ -72,7 +74,7 @@ END_DLG_MESSAGE_MAP()
 /******************************************************************************/
 // 初期化
 //============================================================================//
-// 更新：02/12/15(日)
+// 更新：03/04/03(木)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -84,11 +86,12 @@ BOOL SettingDlg::OnInitDialog( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	hwndCombo = GetDlgItem( hDlg, IDC_COMBO) ;
 
 	// チェック
-	CheckRadioButton( hDlg, IDC_FOLDERSET, IDC_FOLDERONZIP, IDC_FOLDERSET + Profile::intFolder) ;
+	CheckRadioButton( hDlg, IDC_FOLDERSET, IDC_FOLDER2, IDC_FOLDERSET + Profile::intFolder) ;
 	CheckRadioButton( hDlg, IDC_FILESET, IDC_FILEPARENT, IDC_FILESET + Profile::intFile) ;
 	CheckDlgButton( hDlg, IDC_DISPLAYLOG, Profile::blnDisplayLog ? BST_CHECKED : 0) ;
 	CheckDlgButton( hDlg, IDC_FAILLOGONLY, Profile::blnFailLogOnly ? BST_CHECKED : 0) ;
-	CheckDlgButton( hDlg, IDC_COMFIRMOVERWRITE, Profile::blnConfirmOverwrite ? BST_CHECKED : 0) ;
+	CheckDlgButton( hDlg, IDC_CONFIRMOVERWRITE, Profile::blnConfirmOverwrite ? BST_CHECKED : 0) ;
+	CheckDlgButton( hDlg, IDC_CLEARONSUCCESS, Profile::blnClearOnSuccess ? BST_CHECKED : 0) ;
 	SetDlgItemText( hDlg, IDC_FOLDERNAME, Profile::strFolder.c_str()) ;
 	SetDlgItemText( hDlg, IDC_FILENAME, Profile::strFile.c_str()) ;
 	SendMessage( hwndCombo, CB_INSERTSTRING, -1, (LPARAM)(LPCTSTR)".zip") ;
@@ -117,7 +120,9 @@ BOOL SettingDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	// ダイアログから読みとり
 	char pszPath[ MAX_PATH + 1] ;
 	Profile::intFolder = IsDlgButtonChecked( hDlg, IDC_FOLDERSET) ? Profile::ZipFolder::SET : 
-			     IsDlgButtonChecked( hDlg, IDC_FOLDER1) ? Profile::ZipFolder::ONE : Profile::ZipFolder::ONZIP ;
+			     IsDlgButtonChecked( hDlg, IDC_FOLDER1) ? Profile::ZipFolder::ONE : 
+			     IsDlgButtonChecked( hDlg, IDC_FOLDER2) ? Profile::ZipFolder::TWO : 
+			     Profile::ZipFolder::ONZIP ;
 	Profile::intFile = IsDlgButtonChecked( hDlg, IDC_FILESET) ? Profile::ZipFile::FILESET : 
 			   Profile::ZipFile::PARENT ;
 	GetDlgItemText( hDlg, IDC_FOLDERNAME, pszPath, MAX_PATH + 1) ;
@@ -127,6 +132,7 @@ BOOL SettingDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	Profile::blnDisplayLog = IsDlgButtonChecked( hDlg, IDC_DISPLAYLOG) ;
 	Profile::blnFailLogOnly = IsDlgButtonChecked( hDlg, IDC_FAILLOGONLY) ;
 	Profile::blnConfirmOverwrite = IsDlgButtonChecked( hDlg, IDC_CONFIRMOVERWRITE) ;
+	Profile::blnClearOnSuccess = IsDlgButtonChecked( hDlg, IDC_CLEARONSUCCESS) ;
 
 	GetDlgItemText( hDlg, IDC_COMBO, pszPath, MAX_PATH + 1) ;
 	Profile::strExtension = pszPath ;
@@ -222,7 +228,8 @@ BOOL SettingDlg::OnBrowseBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 {
 	char pszZipPath[ MAX_PATH + 1] ;
 	GetDlgItemText( m_hWnd, IDC_FOLDERNAME, pszZipPath, MAX_PATH) ;
-	const char* pszPath = File( pszZipPath).GetBasePath().c_str() ;
+	char pszPath[ MAX_PATH + 1];
+	strcpy( pszPath, GetDirName( pszZipPath).c_str()) ;
 
 	BROWSEINFO bi ;
 	bi.hwndOwner		= hDlg ;
