@@ -1,4 +1,5 @@
 
+
 // ZipDlg.cpp
 //============================================================================//
 // 更新：02/12/09(月)
@@ -7,6 +8,7 @@
 //============================================================================//
 
 #include "ZipDlg.h"
+#include "ProgressDlg.h"
 #include "resource.h"
 #include "about.h"
 #include "Zip.h"
@@ -396,7 +398,9 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	}
 
 	// 実行
-	fire( strPath, hwndList) ;
+	ProgressDlg pd( &vecFileList, strPath) ;
+	DialogBoxParam( hInstance, MAKEINTRESOURCE( IDD_PROGRESS), hDlg, ProgressDlgProc, (LPARAM)&pd) ;
+	//fire( strPath, hwndList) ;
 	MessageBox( hDlg, ( strPath + " に作成が完了しました。").c_str(), "完了", MB_OK) ;
 	ListReload( TRUE) ;
 
@@ -482,7 +486,7 @@ BOOL ZipDlg::OnBrowseBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	bi.pidlRoot		= NULL ;
 	bi.pszDisplayName	= NULL ;
 	bi.lpszTitle		= "フォルダを選択して下さい" ;
-	bi.ulFlags		= BIF_SHAREABLE ;
+	bi.ulFlags		= 0x8000 ;//BIF_SHAREABLE ;
 	bi.lpfn			= NULL ;
 	bi.lParam		= 0 ;
 	bi.iImage		= NULL ;
@@ -658,6 +662,7 @@ BOOL ZipDlg::OnDelBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 BOOL ZipDlg::OnListNotify( HWND hDlg, WPARAM wParam, LPARAM lParam)
 {
 	NMHDR*	nmhdr = (NMHDR*)lParam ;
+
 
 	// キーダウン
 	if( nmhdr->code == LVN_KEYDOWN)

@@ -1,4 +1,5 @@
 
+
 // Zip.h
 //============================================================================//
 // çXêVÅF02/12/09(åé)
@@ -20,12 +21,7 @@
 #define PUTSH(a,f)	{putc((char)((a) & 0xff),(f)); putc((char)((a) >> 8),(f));}
 #define PUTLG(a,f)	{PUTSH((a) & 0xffff,(f)) PUTSH((a) >> 16,(f))}
 //#define SBSZ		16384
-
-struct FIREPARAM
-{
-	string	strPath ;
-	HWND		hwndList ;
-} ;
+class ProcessDlg ;
 
 
 /******************************************************************************/
@@ -33,7 +29,7 @@ struct FIREPARAM
 /******************************************************************************/
 
 // à≥èk
-DWORD WINAPI fire( const string&, HWND) ;
+DWORD WINAPI fire( void*) ;
 BOOL OutputLocalFileHeader( Mp3File* pMp3File, FILE* fzip) ;
 BOOL OutputCentralDirectory( Mp3File* pMp3File, FILE* fzip) ;
 BOOL OutputEndCentralDirectory( int intFileNum, ULONG ulDirSize, ULONG ulOffset, FILE* fzip) ;

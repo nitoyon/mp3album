@@ -102,6 +102,10 @@ SOURCE=.\Mp3File.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\ProgressDlg.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\resource.h
 # End Source File
 # Begin Source File
@@ -155,6 +159,10 @@ SOURCE=.\mp3album.cpp
 # Begin Source File
 
 SOURCE=.\Mp3File.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\ProgressDlg.cpp
 # End Source File
 # Begin Source File
 

@@ -74,6 +74,20 @@ BEGIN
     LTEXT           "Å¶",IDC_STATIC,44,37,8,8
 END
 
+IDD_PROGRESS DIALOG DISCARDABLE  0, 0, 207, 93
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "MP3ÉAÉãÉoÉÄÇﬂÅ[Ç©Å["
+FONT 9, "ÇlÇr ÇoÉSÉVÉbÉN"
+BEGIN
+    PUSHBUTTON      "íÜíf",IDCANCEL,68,72,50,14
+    LTEXT           "Static",IDC_ARCHIVENAME,7,7,193,8
+    CONTROL         "Progress1",IDC_ARCHIVEPROGRESS,"msctls_progress32",
+                    PBS_SMOOTH | WS_BORDER,7,19,193,12
+    LTEXT           "Static",IDC_FILENAME,7,39,193,8
+    CONTROL         "Progress1",IDC_FILEPROGRESS,"msctls_progress32",
+                    PBS_SMOOTH | WS_BORDER,7,51,193,12
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -106,6 +120,14 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 122
         HORZGUIDE, 37
+    END
+
+    IDD_PROGRESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 200
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 86
     END
 END
 #endif    // APSTUDIO_INVOKED
