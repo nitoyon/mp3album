@@ -2,7 +2,7 @@
 
 // ZipDlg.h
 //============================================================================//
-// 更新：02/12/09(月)
+// 更新：02/12/15(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -26,6 +26,7 @@ class File ;
 /******************************************************************************/
 
 int CALLBACK ListSortProc( LPARAM lp1, LPARAM lp2, LPARAM lp3) ;
+int CALLBACK BrowseProc( HWND, UINT, WPARAM, LPARAM) ;
 
 
 /******************************************************************************/
@@ -41,9 +42,6 @@ private:
 	HWND		hwndDel ;
 	WNDPROC		wpcList ;
 	HINSTANCE	hInstance ;
-
-	BOOL	blnFullPath ;
-	BOOL	blnOnlyMp3 ;
 
 	vector<File*>	vecFileList ;
 
@@ -70,6 +68,7 @@ private:
 	BOOL OnOk		( HWND, WPARAM, LPARAM) ;
 	BOOL OnCancel		( HWND, WPARAM, LPARAM) ;
 	BOOL OnAboutBtn		( HWND, WPARAM, LPARAM) ;
+	BOOL OnSettingBtn	( HWND, WPARAM, LPARAM) ;
 
 	BOOL OnFullPathChanged	( HWND, WPARAM, LPARAM) ;
 	BOOL OnOnlyMp3Changed	( HWND, WPARAM, LPARAM) ;

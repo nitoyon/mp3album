@@ -26,34 +26,33 @@ LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 // Dialog
 //
 
-IDD_MAIN DIALOG DISCARDABLE  0, 0, 255, 281
+IDD_MAIN DIALOG DISCARDABLE  0, 0, 255, 257
 STYLE WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION ".ZIP.MP3 をバシバシ作るがよろし。 ヽ(´┏∀┓`)ﾉ"
+CAPTION 
+"MP3アルバムメーカー - .ZIP.MP3 をバシバシ作るがよろし。 ヽ(´┏∀┓`)ﾉ"
 FONT 9, "ＭＳ Ｐゴシック"
 BEGIN
-    GROUPBOX        "出力 zip ファイル(&Z)",IDC_STATIC,7,7,241,64
+    GROUPBOX        "出力 zip ファイル(&Z)",IDC_STATIC,7,7,241,36
     LTEXT           "ファイル名：",IDC_STATIC,13,20,35,8
     EDITTEXT        IDC_ZIPPATH,52,19,157,13,ES_AUTOHSCROLL
-    LTEXT           "zipアルバム化するファイル一覧（&M）：",IDC_STATIC,7,87,
+    PUSHBUTTON      "&...",IDC_BROWSE,221,18,17,14
+    LTEXT           "zipアルバム化するファイル一覧（&M）：",IDC_STATIC,7,62,
                     108,8
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
                     LVS_SHOWSELALWAYS | LVS_AUTOARRANGE | WS_BORDER | 
-                    WS_TABSTOP,7,98,202,140
+                    WS_TABSTOP,7,73,202,140
     CONTROL         "フルパス(&F)",IDC_FULLPATH,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,239,50,10
+                    WS_TABSTOP,7,214,50,10
     CONTROL         "MP3以外は一覧に追加しない(&E)",IDC_ONLYMP3,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,62,239,109,10
-    PUSHBUTTON      "&Add",IDC_ADD,221,99,27,19
-    PUSHBUTTON      "&Del",IDC_DEL,221,122,27,19
-    PUSHBUTTON      "↑(&U)",IDC_UP,221,143,27,19
-    PUSHBUTTON      "↓(&N)",IDC_DOWN,221,165,27,19
-    DEFPUSHBUTTON   "作成",IDOK,7,260,50,14
-    PUSHBUTTON      "終了",IDCANCEL,67,260,50,14
-    LTEXT           "フォルダを省略すると、MP3 の１曲目と同じフォルダに作成します。\nファイル名を省略すると、album.zip.mp3 という名前で作成します。",
-                    IDC_STATIC,52,33,116,34
-    PUSHBUTTON      "ﾊﾞｰｼﾞｮﾝ情報(&V)",IDC_ABOUT,127,260,50,14
-    PUSHBUTTON      "設定(&S)",IDC_SETTING,198,235,50,14,NOT WS_VISIBLE
-    PUSHBUTTON      "&.",IDC_BROWSE,221,18,17,14
+                    BS_AUTOCHECKBOX | WS_TABSTOP,62,214,109,10
+    PUSHBUTTON      "&Add",IDC_ADD,221,74,27,19
+    PUSHBUTTON      "&Del",IDC_DEL,221,97,27,19
+    PUSHBUTTON      "↑(&U)",IDC_UP,221,118,27,19
+    PUSHBUTTON      "↓(&N)",IDC_DOWN,221,140,27,19
+    DEFPUSHBUTTON   "作成",IDOK,7,235,50,14
+    PUSHBUTTON      "終了",IDCANCEL,65,235,50,14
+    PUSHBUTTON      "ﾊﾞｰｼﾞｮﾝ情報(&V)",IDC_ABOUT,181,235,50,14
+    PUSHBUTTON      "設定(&S)",IDC_SETTING,123,235,50,14
 END
 
 IDD_ABOUT DIALOG DISCARDABLE  0, 0, 163, 129
@@ -66,7 +65,7 @@ BEGIN
     LTEXT           "(c) nitoyon 2002",IDC_STATIC,44,18,48,8
     LTEXT           "http://www.nitoyon.com/",IDC_URL,53,69,73,8,SS_NOTIFY
     LTEXT           "soft@nitoyon.com",IDC_MAIL,53,79,51,8,SS_NOTIFY
-    GROUPBOX        "MP3アルバムメーカー ver 1.03",IDC_STATIC,31,7,126,88
+    GROUPBOX        "MP3アルバムメーカー ver 1.1.0",IDC_STATIC,31,7,126,88
     PUSHBUTTON      "&Readme.txt を表示",IDC_README,71,108,61,14,NOT 
                     WS_VISIBLE
     LTEXT           "作成した MP3 アルバムは、個人で楽しむだけにしてくださいね。",
@@ -76,7 +75,7 @@ END
 
 IDD_PROGRESS DIALOG DISCARDABLE  0, 0, 207, 93
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "MP3アルバムめーかー"
+CAPTION "MP3アルバムメーカー"
 FONT 9, "ＭＳ Ｐゴシック"
 BEGIN
     PUSHBUTTON      "中断",IDCANCEL,68,72,50,14
@@ -86,6 +85,51 @@ BEGIN
     LTEXT           "Static",IDC_FILENAME,7,39,193,8
     CONTROL         "Progress1",IDC_FILEPROGRESS,"msctls_progress32",
                     PBS_SMOOTH | WS_BORDER,7,51,193,12
+END
+
+IDD_RESULT DIALOG DISCARDABLE  0, 0, 186, 163
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "作成結果"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    DEFPUSHBUTTON   "閉じる",IDOK,7,142,50,14
+    EDITTEXT        IDC_EDIT,7,7,172,128,ES_MULTILINE | ES_READONLY | 
+                    ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
+END
+
+IDD_SETTING DIALOG DISCARDABLE  0, 0, 306, 215
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "設定"
+FONT 9, "ＭＳ Ｐゴシック"
+BEGIN
+    GROUPBOX        "デフォルトのフォルダ(&F)",IDC_STATIC,7,7,143,82
+    CONTROL         "指定したフォルダ",IDC_FOLDERSET,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,21,73,8
+    CONTROL         "１曲目と同じ場所",IDC_FOLDER1,"Button",
+                    BS_AUTORADIOBUTTON,14,52,65,10
+    CONTROL         "圧縮時に指定",IDC_FOLDERONZIP,"Button",
+                    BS_AUTORADIOBUTTON,14,69,57,10
+    EDITTEXT        IDC_FOLDERNAME,25,33,105,13,ES_AUTOHSCROLL | WS_GROUP
+    PUSHBUTTON      "&...",IDC_BROWSE,135,33,9,13
+    GROUPBOX        "デフォルトのファイル名(&N)",IDC_STATIC,7,104,143,58
+    CONTROL         "指定したファイル名",IDC_FILESET,"Button",
+                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,115,109,8
+    CONTROL         "１曲目の親フォルダ名",IDC_FILEPARENT,"Button",
+                    BS_AUTORADIOBUTTON,14,144,79,10
+    EDITTEXT        IDC_FILENAME,25,125,119,13,ES_AUTOHSCROLL | WS_GROUP
+    GROUPBOX        "デフォルトの拡張子(&E)",IDC_STATIC,7,173,143,35
+    COMBOBOX        IDC_COMBO,14,186,61,40,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "ダイアログ",IDC_STATIC,159,7,140,82
+    CONTROL         "圧縮後にログを表示する",IDC_DISPLAYLOG,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,166,20,87,10
+    CONTROL         "失敗時のみ",IDC_FAILLOGONLY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,177,35,50,10
+    CONTROL         "同名の出力ファイルがある場合は上書きの確認をする",
+                    IDC_CONFIRMOVERWRITE,"Button",BS_AUTOCHECKBOX | BS_TOP | 
+                    BS_MULTILINE | WS_TABSTOP,166,59,126,18
+    DEFPUSHBUTTON   "OK",IDOK,190,194,57,14
+    PUSHBUTTON      "ｷｬﾝｾﾙ",IDCANCEL,249,194,50,14
 END
 
 
@@ -105,8 +149,7 @@ BEGIN
         VERTGUIDE, 52
         VERTGUIDE, 221
         TOPMARGIN, 7
-        BOTTOMMARGIN, 274
-        HORZGUIDE, 196
+        BOTTOMMARGIN, 250
         HORZGUIDE, 249
     END
 
@@ -128,6 +171,27 @@ BEGIN
         RIGHTMARGIN, 200
         TOPMARGIN, 7
         BOTTOMMARGIN, 86
+    END
+
+    IDD_RESULT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 156
+    END
+
+    IDD_SETTING, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 299
+        VERTGUIDE, 14
+        VERTGUIDE, 25
+        VERTGUIDE, 144
+        VERTGUIDE, 150
+        VERTGUIDE, 166
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 208
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -174,6 +238,21 @@ IDI_ICON                ICON    DISCARDABLE     "icon1.ico"
 //
 
 IDC_CURSOR_HAND         CURSOR  DISCARDABLE     "cursor1.cur"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_SETTING DLGINIT
+BEGIN
+    IDC_COMBO, 0x403, 5, 0
+0x7a2e, 0x7069, "\000" 
+    IDC_COMBO, 0x403, 9, 0
+0x7a2e, 0x7069, 0x6d2e, 0x3370, "\000" 
+    0
+END
+
 #endif    // 日本語 resources
 /////////////////////////////////////////////////////////////////////////////
 

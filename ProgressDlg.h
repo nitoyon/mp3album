@@ -1,7 +1,7 @@
 
 // ProgressDlg.h
 //============================================================================//
-// 更新：02/12/12(木)
+// 更新：02/12/15(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -26,6 +26,17 @@ class File ;
 
 class ProgressDlg
 {
+public:
+// 定義
+	enum State
+	{
+		ZIPPING,	// zip化中
+		SUCCESS,	// zip化正常終了
+		FAIL,		// zip化異常終了
+		CANCELED,	// キャンセルされた
+		NOTHREAD	// スレッド作成エラー
+	} ;
+
 private:
 	HWND		m_hWnd ;
 	HWND		hwndArchiveProgress ;
@@ -33,7 +44,10 @@ private:
 
 	vector<File*>*	pvecFile ;
 	string		strArchivePath ;
-	HANDLE		hThread ;
+	State		state ;
+
+	string		strLog ;
+	string		strErrLog ;
 
 public:
 // コンストラクタおよびデストラクタ
@@ -43,11 +57,17 @@ public:
 // 取得
 	vector<File*>* GetFileList() const{ return pvecFile ;}
 	string GetArchivePath() const{ return strArchivePath ;}
+	State GetState() const{ return state ;}
+	string GetLog() const{ return strLog ;}
+	string GetErrLog() const{ return strErrLog ;}
 
 // 設定
 	void SetFileName( const string& s) ;
 	void SetProgressPos( int, ULONG) ;
 	void SetProgressRange( int, ULONG) ;
+	void SetState( State s) ;
+	void SetLog( const string& s){ strLog = s ;}
+	void SetErrLog( const string& s){ strErrLog = s ;}
 
 // メッセージハンドラ
 private:
@@ -55,6 +75,9 @@ private:
 
 	BOOL OnInitDialog	( HWND, WPARAM, LPARAM) ;
 	BOOL OnCancel		( HWND, WPARAM, LPARAM) ;
+
+public:
+	BOOL OnZipFinish() ;
 } ;
 
 #endif

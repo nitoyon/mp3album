@@ -40,9 +40,10 @@ RSC=rc.exe
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "Release"
 # PROP Intermediate_Dir "Release"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
+# ADD CPP /nologo /MT /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x411 /d "NDEBUG"
@@ -65,9 +66,10 @@ LINK32=link.exe
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "mp3album___Win32_Debug"
 # PROP Intermediate_Dir "mp3album___Win32_Debug"
+# PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
+# ADD CPP /nologo /MT /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /YX /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x411 /d "_DEBUG"
@@ -102,11 +104,19 @@ SOURCE=.\Mp3File.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Profile.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\ProgressDlg.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\resource.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\SettingDlg.h
 # End Source File
 # Begin Source File
 
@@ -132,21 +142,13 @@ SOURCE=.\resource.rc
 # Begin Group "Source Files"
 
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
-# Begin Group "zip32"
-
-# PROP Default_Filter ""
-# Begin Source File
-
-SOURCE=.\crc32.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\crctab.cpp
-# End Source File
-# End Group
 # Begin Source File
 
 SOURCE=.\about.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\crc32.cpp
 # End Source File
 # Begin Source File
 
@@ -162,7 +164,15 @@ SOURCE=.\Mp3File.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\Profile.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\ProgressDlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\SettingDlg.cpp
 # End Source File
 # Begin Source File
 

@@ -10,6 +10,8 @@
 #define IDD_ABOUT                       103
 #define IDC_CURSOR_HAND                 104
 #define IDD_PROGRESS                    105
+#define IDD_RESULT                      106
+#define IDD_SETTING                     107
 #define IDC_LIST                        1000
 #define IDC_DEL                         1002
 #define IDC_UP                          1003
@@ -26,14 +28,26 @@
 #define IDC_FILEPROGRESS                1022
 #define IDC_ARCHIVENAME                 1023
 #define IDC_FILENAME                    1024
+#define IDC_EDIT                        1025
+#define IDC_FOLDERSET                   1026
+#define IDC_FOLDER1                     1027
+#define IDC_FOLDERONZIP                 1028
+#define IDC_FOLDERNAME                  1029
+#define IDC_DISPLAYLOG                  1030
+#define IDC_FAILLOGONLY                 1031
+#define IDC_FILESET                     1032
+#define IDC_FILEPARENT                  1033
+#define IDC_COMFIRMOVERWRITE            1034
+#define IDC_CONFIRMOVERWRITE            1034
+#define IDC_COMBO                       1036
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        106
+#define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1025
+#define _APS_NEXT_CONTROL_VALUE         1040
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

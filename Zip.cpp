@@ -2,7 +2,7 @@
 
 // Zip.cpp
 //============================================================================//
-// 更新：02/12/09(月)
+// 更新：02/12/15(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -16,40 +16,61 @@
 /******************************************************************************/
 // 圧縮実行
 //============================================================================//
-// 更新：02/12/09(月)
+// 更新：02/12/15(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
 
-DWORD WINAPI fire( void* p)
+void _cdecl fire( void* p)
 {
 	ProgressDlg* pProgressDlg = (ProgressDlg*)p ;
 	vector<File*>* pvecFileList = pProgressDlg->GetFileList() ;
 	string strPath = pProgressDlg->GetArchivePath() ;
 
 	// 情報取得
-	int intCount = pvecFileList->size();
 	vector<Mp3File*> vecMp3FileList ;
-	ULONG  ulArchiveTotal = 0 ;
 	int i ;
-	for( i = 0; i < intCount; i++)
+	if( !GetFileAttr( &vecMp3FileList, pProgressDlg))
 	{
-		Mp3File* pMp3File = new Mp3File( (File*)pvecFileList->at( i)) ;
-		if( pMp3File->ulSize == 0 && pMp3File->lModifiedTime == 0)
+		// エラー処理
+		string s ;
+		for( i = 0; i < vecMp3FileList.size(); i++)
 		{
-			pMp3File->uiErr = ERR_ATTR_UNREADABLE ;
+			if( vecMp3FileList[ i]->uiErr == ERR_ATTR_UNREADABLE)
+			{
+				s += vecMp3FileList[ i]->GetFilePath() + "\n" ;
+			}
 		}
 
-		vecMp3FileList.push_back( pMp3File) ;
-		ulArchiveTotal += pMp3File->ulSize ;
+		pProgressDlg->SetErrLog( string( "次のファイルの情報を取得できませんでした。\n---\n") + s) ;
+		pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+		pProgressDlg->OnZipFinish() ;
+		return ;
 	}
+	int intCount = vecMp3FileList.size() ;
 
 	// プログレスセット
+	ULONG  ulArchiveTotal = 0 ;
+	for( i = 0; i < intCount; i++)
+	{
+		ulArchiveTotal += vecMp3FileList[ i]->ulSize ;
+	}
 	pProgressDlg->SetProgressRange( 0, ulArchiveTotal) ;
 
 	// 順次、解凍
 	FILE* fzip ;
 	fzip = fopen( strPath.c_str(), "wb") ;
+	if( !fzip)
+	{
+		pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+		pProgressDlg->SetErrLog( 
+			  string( "次のファイルを書き込みモードで開けませんでした。\n---\n")
+			+ strPath
+			) ;
+		pProgressDlg->OnZipFinish() ;
+		return ;
+	}
+
 	ULONG lPrevTail = 0 ;
 	ulArchiveTotal = 0 ;
 
@@ -67,6 +88,16 @@ DWORD WINAPI fire( void* p)
 		// MP3 ファイル出力
 		BYTE bBuf[ SBSZ] ;
 		FILE* fMp3 = fopen( pMp3File->GetFilePath().c_str(), "rb") ;
+		if( !fMp3)
+		{
+			pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+			pProgressDlg->SetErrLog( 
+				  string( "次のファイルを読みとりモードで開けませんでした\n---\n") + pMp3File->GetFilePath()
+				  ) ;
+			pProgressDlg->OnZipFinish() ;
+			return ;
+		}
+
 		ULONG ulRead ;
 		ULONG ulFileTotal = 0 ;
 		ULONG ulCrc = 0 ;
@@ -76,8 +107,10 @@ DWORD WINAPI fire( void* p)
 			ulRead = fread( bBuf, sizeof( BYTE), SBSZ, fMp3) ;
 			if( ferror( fMp3))
 			{
-				pMp3File->uiErr = ERR_FILE_UNREADABLE ;
-				break ;
+				pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+				pProgressDlg->SetErrLog( string( "[NG:読みとり中にエラーが発生しました] " + pMp3File->GetFilePath())) ;
+				pProgressDlg->OnZipFinish() ;
+				return ;
 			}
 
 			// ログ
@@ -87,11 +120,20 @@ DWORD WINAPI fire( void* p)
 			pProgressDlg->SetProgressPos( 1, ulFileTotal) ;
 
 			// 書き込み
-			ulCrc = crc32( ulCrc, (uch*)bBuf, ulRead);
+			ulCrc = crc32( ulCrc, (unsigned char*)bBuf, ulRead);
 			fwrite( bBuf, sizeof( BYTE), ulRead, fzip) ;
 			if( feof( fMp3))
 			{
 				break ;
+			}
+
+			if( pProgressDlg->GetState() == ProgressDlg::State::CANCELED)
+			{
+				fclose( fzip) ;
+				fclose( fMp3) ;
+				pProgressDlg->SetErrLog( string( "ユーザーによってキャンセルされました。")) ;
+				pProgressDlg->OnZipFinish() ;
+				return ;
 			}
 		}
 
@@ -103,9 +145,9 @@ DWORD WINAPI fire( void* p)
 			PUTLG( ulCrc, fzip) ;
 			fseek( fzip, lTail, SEEK_SET) ;
 		}
-		//ZipLog( hwnd, i, "[  成    功  ]") ;
 
 		lPrevTail = lTail ;
+		pProgressDlg->SetLog( pProgressDlg->GetLog() + string( "[OK] " + pMp3File->GetFilePath() + "\n")) ;
 		fclose( fMp3) ;
 	}
 
@@ -120,6 +162,13 @@ DWORD WINAPI fire( void* p)
 		intFileNum++ ;
 
 		delete vecMp3FileList[ i] ;
+
+		if( pProgressDlg->GetState() == ProgressDlg::State::CANCELED)
+		{
+			fclose( fzip) ;
+			pProgressDlg->OnZipFinish() ;
+			return ;
+		}
 	}
 
 	// End of central directory record の出力
@@ -127,8 +176,41 @@ DWORD WINAPI fire( void* p)
 	OutputEndCentralDirectory( intFileNum, ulDirSize, ulOffset, fzip) ;
 
 	fclose( fzip) ;
+	pProgressDlg->SetState( ProgressDlg::State::SUCCESS) ;
+	pProgressDlg->OnZipFinish() ;
 
-	return 1 ;
+	return ;
+}
+
+
+/******************************************************************************/
+// ファイル情報取得
+//============================================================================//
+// 更新：02/12/15(日)
+// 概要：なし。
+// 補足：なし。
+//============================================================================//
+
+BOOL GetFileAttr( vector<Mp3File*>* pvecMp3FileList, ProgressDlg* pProgressDlg)
+{
+	vector<File*>* pvecFileList = pProgressDlg->GetFileList() ;
+	int intCount = pvecFileList->size() ;
+
+	// １つずつ取得
+	BOOL blnSuccess = TRUE ;
+	for( int i = 0; i < intCount; i++)
+	{
+		Mp3File* pMp3File = new Mp3File( (File*)pvecFileList->at( i)) ;
+		if( pMp3File->ulSize == 0 && pMp3File->lModifiedTime == 0)
+		{
+			pMp3File->uiErr = ERR_ATTR_UNREADABLE ;
+			blnSuccess = FALSE ;
+		}
+
+		pvecMp3FileList->push_back( pMp3File) ;
+	}
+
+	return blnSuccess ;
 }
 
 
@@ -218,34 +300,4 @@ BOOL OutputEndCentralDirectory( int intFileNum, ULONG ulDirSize, ULONG ulOffset,
 	PUTSH( 0, fzip);		// zipfile comment length
 
 	return TRUE ;
-}
-
-
-/******************************************************************************/
-// ログ出力
-//============================================================================//
-// 更新：02/12/09(月)
-// 概要：なし。
-// 補足：なし。
-//============================================================================//
-
-void ZipLog( HWND hwnd, int i, const string& s)
-{
-/*	LVITEM lvitem = { LVIF_PARAM} ;
-	lvitem.iItem = i ;
-	ListView_GetItem( hwnd, &lvitem) ;
-	File* pFile = (File*)lvitem.lParam ;
-
-	string str = s + " " + pFile->GetFilePath() ;
-	lvitem.mask	= LVIF_TEXT ;
-	lvitem.iItem	= i ;
-	lvitem.pszText	= (LPTSTR)str.c_str() ;
-	ListView_SetItem( hwnd, &lvitem) ;
-
-	MSG msg ;
-	while( PeekMessage(&msg, hwnd, 0, 0, PM_REMOVE))
-	{
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
-	}*/
 }

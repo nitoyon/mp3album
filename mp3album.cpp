@@ -1,7 +1,7 @@
 
 // main.cpp
 //============================================================================//
-// 更新：02/12/07(土)
+// 更新：02/12/15(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
@@ -9,20 +9,24 @@
 #include "include.h"
 #include "resource.h"
 #include "ZipDlg.h"
+#include "Profile.h"
 
 
 /******************************************************************************/
 // WinMain
 //============================================================================//
-// 更新：02/06/23(日)
+// 更新：02/12/15(日)
 // 概要：なし。
 // 補足：なし。
 //============================================================================//
 
-int WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, int i)
+int WINAPI WinMain( HINSTANCE hInst, HINSTANCE, LPSTR, int iCmdShow)
 {
 	ZipDlg zd ;
+	Profile::Load() ;
 	DialogBoxParam( hInst, MAKEINTRESOURCE( IDD_MAIN), NULL, ZipDlgProc, (LPARAM)&zd) ;
+	Profile::Save() ;
+
 	return 0 ;
 }
 
