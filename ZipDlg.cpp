@@ -494,8 +494,16 @@ BOOL ZipDlg::OnBrowseBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 		SHGetPathFromIDList( idlist, pszPath) ;
 		CoTaskMemFree( idlist) ;
 
-		string s = string( pszPath) + "\\" ;
-		SetDlgItemText( hDlg, IDC_ZIPPATH, s.c_str()) ;
+		File file( pszPath) ;
+		if( file.GetFileName() != "")
+		{
+			string s = string( pszPath) + "\\" ;
+			SetDlgItemText( hDlg, IDC_ZIPPATH, s.c_str()) ;
+		}
+		else
+		{
+			SetDlgItemText( hDlg, IDC_ZIPPATH, pszPath) ;
+		}
 	}
 
 	return TRUE ;

@@ -51,8 +51,8 @@ BEGIN
     PUSHBUTTON      "終了",IDCANCEL,67,260,50,14
     LTEXT           "フォルダを省略すると、MP3 の１曲目と同じフォルダに作成します。\nファイル名を省略すると、album.zip.mp3 という名前で作成します。",
                     IDC_STATIC,52,33,116,34
-    PUSHBUTTON      "ﾊﾞｰｼﾞｮﾝ情報(&V)",IDC_ABOUT,187,260,50,14
-    PUSHBUTTON      "設定(&S)",IDC_SETTING,127,260,50,14
+    PUSHBUTTON      "ﾊﾞｰｼﾞｮﾝ情報(&V)",IDC_ABOUT,127,260,50,14
+    PUSHBUTTON      "設定(&S)",IDC_SETTING,198,235,50,14,NOT WS_VISIBLE
     PUSHBUTTON      "&.",IDC_BROWSE,221,18,17,14
 END
 
@@ -66,7 +66,7 @@ BEGIN
     LTEXT           "(c) nitoyon 2002",IDC_STATIC,44,18,48,8
     LTEXT           "http://www.nitoyon.com/",IDC_URL,53,69,73,8,SS_NOTIFY
     LTEXT           "soft@nitoyon.com",IDC_MAIL,53,79,51,8,SS_NOTIFY
-    GROUPBOX        "MP3アルバムメーカー ver 1.02",IDC_STATIC,31,7,126,88
+    GROUPBOX        "MP3アルバムメーカー ver 1.03",IDC_STATIC,31,7,126,88
     PUSHBUTTON      "&Readme.txt を表示",IDC_README,71,108,61,14,NOT 
                     WS_VISIBLE
     LTEXT           "作成した MP3 アルバムは、個人で楽しむだけにしてくださいね。",
