@@ -1,0 +1,11 @@
+Release/
+Debug/
+Win32/
+x64/
+*.user
+*.suo
+*.ncb
+*.opensdf
+*.sdf
+resource.aps
+Thumbs.db
