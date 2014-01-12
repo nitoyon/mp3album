@@ -465,12 +465,12 @@ BOOL ZipDlg::OnBrowseBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	// 既に入力されているパスを取得
 	GetDlgItemText( m_hWnd, IDC_ZIPPATH, pszZipPath, MAX_PATH) ;
 	char pszPath[ MAX_PATH + 1];
-	strcpy( pszPath, GetDirName( pszZipPath).c_str()) ;
+	strcpy_s( pszPath, GetDirName( pszZipPath).c_str()) ;
 
 	// 一曲目のパスを取得
 	if( strcmp( pszPath, "") == 0 && vecFileList.size() != 0)
 	{
-		strcpy( pszPath, GetDirName( vecFileList[ 0]->GetFilePath()).c_str());
+		strcpy_s( pszPath, GetDirName( vecFileList[ 0]->GetFilePath()).c_str());
 	}
 
 	BROWSEINFO bi ;

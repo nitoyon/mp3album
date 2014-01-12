@@ -59,8 +59,8 @@ void _cdecl fire( void* p)
 
 	// 順次、圧縮
 	FILE* fzip ;
-	fzip = fopen( strPath.c_str(), "wb") ;
-	if( !fzip)
+	errno_t err = fopen_s( &fzip, strPath.c_str(), "wb") ;
+	if( err != 0)
 	{
 		pProgressDlg->SetState( ProgressDlg::FAIL) ;
 		pProgressDlg->SetErrLog( 
@@ -87,8 +87,9 @@ void _cdecl fire( void* p)
 
 		// MP3 ファイル出力
 		BYTE bBuf[ SBSZ] ;
-		FILE* fMp3 = fopen( pMp3File->GetFilePath().c_str(), "rb") ;
-		if( !fMp3)
+		FILE* fMp3;
+		errno_t err = fopen_s( &fMp3, pMp3File->GetFilePath().c_str(), "rb") ;
+		if( err != 0)
 		{
 			pProgressDlg->SetState( ProgressDlg::FAIL) ;
 			pProgressDlg->SetErrLog( 
@@ -224,7 +225,7 @@ BOOL GetFileAttr( vector<Mp3File*>* pvecMp3FileList, ProgressDlg* pProgressDlg)
 BOOL OutputLocalFileHeader( Mp3File* pMp3File, FILE* fzip)
 {
 	char pszFileName[ _MAX_FNAME * 3] ;	// ファイル名エンコードで最大３倍になる
-	strcpy( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
+	strcpy_s( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
 
 	// ヘッダの出力 (zipfile.c (putlocal) : 1040行目) 
 	// http://www.goice.co.jp/member/mo/formats/zip.html
@@ -255,7 +256,7 @@ BOOL OutputLocalFileHeader( Mp3File* pMp3File, FILE* fzip)
 BOOL OutputCentralDirectory( Mp3File* pMp3File, FILE* fzip)
 {
 	char pszFileName[ _MAX_FNAME * 3] ;	// ファイル名エンコードで最大３倍になる
-	strcpy( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
+	strcpy_s( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
 
 	PUTLG( 0x02014b50L, fzip) ;			// 
 	PUTSH( 0x0B17, fzip) ;				// Version made by = 0x0B17

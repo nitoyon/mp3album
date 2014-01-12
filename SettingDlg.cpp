@@ -229,7 +229,7 @@ BOOL SettingDlg::OnBrowseBtn( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	char pszZipPath[ MAX_PATH + 1] ;
 	GetDlgItemText( m_hWnd, IDC_FOLDERNAME, pszZipPath, MAX_PATH) ;
 	char pszPath[ MAX_PATH + 1];
-	strcpy( pszPath, GetDirName( pszZipPath).c_str()) ;
+	strcpy_s( pszPath, GetDirName( pszZipPath).c_str()) ;
 
 	BROWSEINFO bi ;
 	bi.hwndOwner		= hDlg ;
