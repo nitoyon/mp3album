@@ -43,7 +43,7 @@ void _cdecl fire( void* p)
 		}
 
 		pProgressDlg->SetErrLog( string( "次のファイルの情報を取得できませんでした。\n---\n") + s) ;
-		pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+		pProgressDlg->SetState( ProgressDlg::FAIL) ;
 		pProgressDlg->OnZipFinish() ;
 		return ;
 	}
@@ -62,7 +62,7 @@ void _cdecl fire( void* p)
 	fzip = fopen( strPath.c_str(), "wb") ;
 	if( !fzip)
 	{
-		pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+		pProgressDlg->SetState( ProgressDlg::FAIL) ;
 		pProgressDlg->SetErrLog( 
 			  string( "次のファイルを書き込みモードで開けませんでした。\n---\n")
 			+ strPath
@@ -90,7 +90,7 @@ void _cdecl fire( void* p)
 		FILE* fMp3 = fopen( pMp3File->GetFilePath().c_str(), "rb") ;
 		if( !fMp3)
 		{
-			pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+			pProgressDlg->SetState( ProgressDlg::FAIL) ;
 			pProgressDlg->SetErrLog( 
 				  string( "次のファイルを読みとりモードで開けませんでした\n---\n") + pMp3File->GetFilePath()
 				  ) ;
@@ -107,7 +107,7 @@ void _cdecl fire( void* p)
 			ulRead = fread( bBuf, sizeof( BYTE), SBSZ, fMp3) ;
 			if( ferror( fMp3))
 			{
-				pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+				pProgressDlg->SetState( ProgressDlg::FAIL) ;
 				pProgressDlg->SetErrLog( string( "[NG:読みとり中にエラーが発生しました] " + pMp3File->GetFilePath())) ;
 				pProgressDlg->OnZipFinish() ;
 				return ;
@@ -127,7 +127,7 @@ void _cdecl fire( void* p)
 				break ;
 			}
 
-			if( pProgressDlg->GetState() == ProgressDlg::State::CANCELED)
+			if( pProgressDlg->GetState() == ProgressDlg::CANCELED)
 			{
 				fclose( fzip) ;
 				fclose( fMp3) ;
@@ -161,7 +161,7 @@ void _cdecl fire( void* p)
 		OutputCentralDirectory( vecMp3FileList[ i], fzip) ;
 		intFileNum++ ;
 
-		if( pProgressDlg->GetState() == ProgressDlg::State::CANCELED)
+		if( pProgressDlg->GetState() == ProgressDlg::CANCELED)
 		{
 			fclose( fzip) ;
 			pProgressDlg->OnZipFinish() ;
@@ -174,7 +174,7 @@ void _cdecl fire( void* p)
 	OutputEndCentralDirectory( intFileNum, ulDirSize, ulOffset, fzip) ;
 
 	fclose( fzip) ;
-	pProgressDlg->SetState( ProgressDlg::State::SUCCESS) ;
+	pProgressDlg->SetState( ProgressDlg::SUCCESS) ;
 	pProgressDlg->OnZipFinish() ;
 
 	return ;

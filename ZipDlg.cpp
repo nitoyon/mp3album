@@ -242,7 +242,7 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	// ファイル名を足す (ディレクトリ || 入力なしの場合)
 	if( strPath == "")
 	{
-		if( Profile::intFile == Profile::ZipFile::FILESET)
+		if( Profile::intFile == Profile::FILESET)
 		{
 			strPath += Profile::strFile ;
 		}
@@ -275,11 +275,11 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	{
 		switch( Profile::intFolder)
 		{
-			case Profile::ZipFolder::SET:
+			case Profile::SET:
 				strPath = Profile::strFolder + strPath ;
 				break ;
 
-			case Profile::ZipFolder::ONE:
+			case Profile::ONE:
 			{
 				string strDir = vecFileList[ 0]->GetFilePath() ;
 				strDir = strDir.substr( 0, strDir.rfind( '\\') + 1) ;
@@ -287,7 +287,7 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 				break ;
 			}
 
-			case Profile::ZipFolder::TWO:
+			case Profile::TWO:
 			{
 				string strDir = vecFileList[ 0]->GetFilePath() ;
 				strDir = strDir.substr( 0, strDir.rfind( '\\')) ;
@@ -299,7 +299,7 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 				break ;
 			}
 
-			case Profile::ZipFolder::ONZIP:
+			case Profile::ONZIP:
 			{
 				char pszZipPath[ MAX_PATH + 1] ;
 				GetDlgItemText( m_hWnd, IDC_ZIPPATH, pszZipPath, MAX_PATH) ;

@@ -119,12 +119,12 @@ BOOL SettingDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 {
 	// ダイアログから読みとり
 	char pszPath[ MAX_PATH + 1] ;
-	Profile::intFolder = IsDlgButtonChecked( hDlg, IDC_FOLDERSET) ? Profile::ZipFolder::SET : 
-			     IsDlgButtonChecked( hDlg, IDC_FOLDER1) ? Profile::ZipFolder::ONE : 
-			     IsDlgButtonChecked( hDlg, IDC_FOLDER2) ? Profile::ZipFolder::TWO : 
-			     Profile::ZipFolder::ONZIP ;
-	Profile::intFile = IsDlgButtonChecked( hDlg, IDC_FILESET) ? Profile::ZipFile::FILESET : 
-			   Profile::ZipFile::PARENT ;
+	Profile::intFolder = IsDlgButtonChecked( hDlg, IDC_FOLDERSET) ? Profile::SET : 
+			     IsDlgButtonChecked( hDlg, IDC_FOLDER1) ? Profile::ONE : 
+			     IsDlgButtonChecked( hDlg, IDC_FOLDER2) ? Profile::TWO : 
+			     Profile::ONZIP ;
+	Profile::intFile = IsDlgButtonChecked( hDlg, IDC_FILESET) ? Profile::FILESET : 
+			   Profile::PARENT ;
 	GetDlgItemText( hDlg, IDC_FOLDERNAME, pszPath, MAX_PATH + 1) ;
 	Profile::strFolder = pszPath ;
 	GetDlgItemText( hDlg, IDC_FILENAME, pszPath, MAX_PATH + 1) ;
