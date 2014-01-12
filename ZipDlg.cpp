@@ -824,7 +824,7 @@ BOOL ZipDlg::ListDel()
 		{
 			// Œã‚ë‚Ì—v‘f‚©‚çíœ
 			ListView_DeleteItem( hwndList, intCount - i - 1) ;
-			vector<Mp3File*>::iterator p = vecFileList.begin() + intCount - i - 1 ;
+			vector<Mp3File*>::iterator p = vecFileList.begin() + (intCount - i - 1) ;
 			delete vecFileList[ intCount - i - 1] ;
 			vecFileList.erase( p) ;
 
