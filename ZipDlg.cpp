@@ -704,17 +704,21 @@ BOOL ZipDlg::ListAdd( Mp3File* pMp3, int intNum)
 	SHGetFileInfo( pMp3->GetFilePath().c_str(), 0, &shfi, sizeof(SHFILEINFO),
 			SHGFI_SYSICONINDEX | SHGFI_SMALLICON);
 
+	// 表示文字列取得
+	string filename = pMp3->GetSaveName();
+	string fullpath = pMp3->GetFilePath();
+
 	// アイテム設定
 	LVITEM item = { LVIF_TEXT | LVIF_STATE | LVIF_PARAM | LVIF_IMAGE} ;
 	intNum  = ( intNum < 0 ? ListView_GetItemCount( hwndList) : intNum) ;
 	item.iItem		= intNum ;
 	item.state		= LVIS_SELECTED ;
 	item.lParam		= (LPARAM)pMp3 ;
-	item.pszText		= (LPTSTR)pMp3->GetSaveName().c_str() ;
+	item.pszText		= (LPTSTR)filename.c_str() ;
 	item.iSubItem		= 0 ;
 	item.iImage		= shfi.iIcon ;
 	ListView_InsertItem( hwndList, &item) ;
-	ListView_SetItemText( hwndList, intNum, 1, (LPTSTR)pMp3->GetFilePath().c_str()) ;
+	ListView_SetItemText( hwndList, intNum, 1, (LPTSTR)fullpath.c_str()) ;
 
 	// リロード
 	ListReload() ;
@@ -926,8 +930,11 @@ void ZipDlg::ListReload( BOOL blnReloadLabel)
 
 		if( blnReloadLabel)
 		{
-			ListView_SetItemText( hwndList, i, 0, (LPTSTR)pMp3->GetSaveName().c_str()) ;
-			ListView_SetItemText( hwndList, i, 1, (LPTSTR)pMp3->GetFilePath().c_str()) ;
+			string filename = pMp3->GetSaveName();
+			string fullpath = pMp3->GetFilePath();
+
+			ListView_SetItemText( hwndList, i, 0, (LPTSTR)filename.c_str()) ;
+			ListView_SetItemText( hwndList, i, 1, (LPTSTR)fullpath.c_str()) ;
 			ListView_SetColumnWidth( hwndList, 0, LVSCW_AUTOSIZE) ;
 		}
 	}
