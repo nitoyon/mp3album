@@ -22,9 +22,9 @@ string GetDirName( const string& strPath)
 	int	intLastYen = 0 ;
 	char	pszFile[ MAX_PATH] ;
 	char*	pszPointer = pszFile ;
-	strcpy( pszFile, strPath.c_str()) ;
+	strcpy_s( pszFile, strPath.c_str()) ;
 
-	for( int i = 0; i < strPath.size(); i++)
+	for( UINT i = 0; i < strPath.size(); i++)
 	{
 		pszPointer = pszFile + i ;
 

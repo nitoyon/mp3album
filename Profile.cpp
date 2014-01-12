@@ -25,8 +25,8 @@ int	Profile::intX = 0 ;
 int	Profile::intY = 0 ;
 
 // ê›íË
-Profile::ZipFolder	Profile::intFolder = Profile::ZipFolder::ONE ;
-Profile::ZipFile	Profile::intFile = Profile::ZipFile::FILESET;
+Profile::ZipFolder	Profile::intFolder = Profile::ONE ;
+Profile::ZipFile	Profile::intFile = Profile::FILESET;
 string			Profile::strFolder = "" ;
 string			Profile::strFile = "" ;
 string			Profile::strExtension = "" ;
@@ -110,8 +110,8 @@ void Profile::Load()
 	intY = GetPrivateProfileInt( "pos", "y", 30, pszFile) ;
 
 	// ê›íË
-	intFolder = (Profile::ZipFolder)GetPrivateProfileInt( "DefaultPath", "folder", (int)ZipFolder::ONE, pszFile) ;
-	intFile = (Profile::ZipFile)GetPrivateProfileInt( "DefaultPath", "file", (int)ZipFile::FILESET, pszFile) ;
+	intFolder = (Profile::ZipFolder)GetPrivateProfileInt( "DefaultPath", "folder", (int)Profile::ONE, pszFile) ;
+	intFile = (Profile::ZipFile)GetPrivateProfileInt( "DefaultPath", "file", (int)Profile::FILESET, pszFile) ;
 	GetPrivateProfileString( "DefaultPath", "FolderPath", "", pszBuf, MAX_PATH, pszFile) ;
 	strFolder = pszBuf ;
 	GetPrivateProfileString( "DefaultPath", "FilePath", "album", pszBuf, MAX_PATH, pszFile) ;

@@ -44,7 +44,7 @@ void MyOutputDebugString( LPCSTR pszFormat, ...)
     va_list    argp;
     char pszBuf[ 256];
     va_start(argp, pszFormat);
-    vsprintf( pszBuf, pszFormat, argp);
+    vsprintf_s( pszBuf, pszFormat, argp);
     va_end(argp);
     OutputDebugString( pszBuf);
 }

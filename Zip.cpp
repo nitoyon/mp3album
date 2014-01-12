@@ -29,7 +29,7 @@ void _cdecl fire( void* p)
 
 	// ProgressDlg から情報取得
 	vector<Mp3File*> vecMp3FileList ;
-	int i ;
+	UINT i ;
 	if( !GetFileAttr( &vecMp3FileList, pProgressDlg))
 	{
 		// エラー処理
@@ -43,15 +43,15 @@ void _cdecl fire( void* p)
 		}
 
 		pProgressDlg->SetErrLog( string( "次のファイルの情報を取得できませんでした。\n---\n") + s) ;
-		pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+		pProgressDlg->SetState( ProgressDlg::FAIL) ;
 		pProgressDlg->OnZipFinish() ;
 		return ;
 	}
-	int intCount = vecMp3FileList.size() ;
+	UINT uiCount = vecMp3FileList.size() ;
 
 	// プログレスセット
 	ULONG  ulArchiveTotal = 0 ;
-	for( i = 0; i < intCount; i++)
+	for( i = 0; i < uiCount; i++)
 	{
 		ulArchiveTotal += vecMp3FileList[ i]->ulSize ;
 	}
@@ -59,10 +59,10 @@ void _cdecl fire( void* p)
 
 	// 順次、圧縮
 	FILE* fzip ;
-	fzip = fopen( strPath.c_str(), "wb") ;
-	if( !fzip)
+	errno_t err = fopen_s( &fzip, strPath.c_str(), "wb") ;
+	if( err != 0)
 	{
-		pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+		pProgressDlg->SetState( ProgressDlg::FAIL) ;
 		pProgressDlg->SetErrLog( 
 			  string( "次のファイルを書き込みモードで開けませんでした。\n---\n")
 			+ strPath
@@ -74,7 +74,7 @@ void _cdecl fire( void* p)
 	ULONG lPrevTail = 0 ;
 	ulArchiveTotal = 0 ;
 
-	for( i = 0; i < intCount; i++)
+	for( i = 0; i < uiCount; i++)
 	{
 		Mp3File* pMp3File = vecMp3FileList[ i] ;
 		pMp3File->lLocalHeader = lPrevTail ;
@@ -87,10 +87,11 @@ void _cdecl fire( void* p)
 
 		// MP3 ファイル出力
 		BYTE bBuf[ SBSZ] ;
-		FILE* fMp3 = fopen( pMp3File->GetFilePath().c_str(), "rb") ;
-		if( !fMp3)
+		FILE* fMp3;
+		errno_t err = fopen_s( &fMp3, pMp3File->GetFilePath().c_str(), "rb") ;
+		if( err != 0)
 		{
-			pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+			pProgressDlg->SetState( ProgressDlg::FAIL) ;
 			pProgressDlg->SetErrLog( 
 				  string( "次のファイルを読みとりモードで開けませんでした\n---\n") + pMp3File->GetFilePath()
 				  ) ;
@@ -107,7 +108,7 @@ void _cdecl fire( void* p)
 			ulRead = fread( bBuf, sizeof( BYTE), SBSZ, fMp3) ;
 			if( ferror( fMp3))
 			{
-				pProgressDlg->SetState( ProgressDlg::State::FAIL) ;
+				pProgressDlg->SetState( ProgressDlg::FAIL) ;
 				pProgressDlg->SetErrLog( string( "[NG:読みとり中にエラーが発生しました] " + pMp3File->GetFilePath())) ;
 				pProgressDlg->OnZipFinish() ;
 				return ;
@@ -127,7 +128,7 @@ void _cdecl fire( void* p)
 				break ;
 			}
 
-			if( pProgressDlg->GetState() == ProgressDlg::State::CANCELED)
+			if( pProgressDlg->GetState() == ProgressDlg::CANCELED)
 			{
 				fclose( fzip) ;
 				fclose( fMp3) ;
@@ -156,12 +157,12 @@ void _cdecl fire( void* p)
 	ULONG	ulOffset = ftell( fzip) ;
 	ULONG	ulDirSize = ftell( fzip) ;
 
-	for( i = 0; i < intCount; i++)
+	for( i = 0; i < uiCount; i++)
 	{
 		OutputCentralDirectory( vecMp3FileList[ i], fzip) ;
 		intFileNum++ ;
 
-		if( pProgressDlg->GetState() == ProgressDlg::State::CANCELED)
+		if( pProgressDlg->GetState() == ProgressDlg::CANCELED)
 		{
 			fclose( fzip) ;
 			pProgressDlg->OnZipFinish() ;
@@ -174,7 +175,7 @@ void _cdecl fire( void* p)
 	OutputEndCentralDirectory( intFileNum, ulDirSize, ulOffset, fzip) ;
 
 	fclose( fzip) ;
-	pProgressDlg->SetState( ProgressDlg::State::SUCCESS) ;
+	pProgressDlg->SetState( ProgressDlg::SUCCESS) ;
 	pProgressDlg->OnZipFinish() ;
 
 	return ;
@@ -224,7 +225,7 @@ BOOL GetFileAttr( vector<Mp3File*>* pvecMp3FileList, ProgressDlg* pProgressDlg)
 BOOL OutputLocalFileHeader( Mp3File* pMp3File, FILE* fzip)
 {
 	char pszFileName[ _MAX_FNAME * 3] ;	// ファイル名エンコードで最大３倍になる
-	strcpy( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
+	strcpy_s( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
 
 	// ヘッダの出力 (zipfile.c (putlocal) : 1040行目) 
 	// http://www.goice.co.jp/member/mo/formats/zip.html
@@ -255,7 +256,7 @@ BOOL OutputLocalFileHeader( Mp3File* pMp3File, FILE* fzip)
 BOOL OutputCentralDirectory( Mp3File* pMp3File, FILE* fzip)
 {
 	char pszFileName[ _MAX_FNAME * 3] ;	// ファイル名エンコードで最大３倍になる
-	strcpy( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
+	strcpy_s( pszFileName, pMp3File->GetSaveNameInZip().c_str()) ;
 
 	PUTLG( 0x02014b50L, fzip) ;			// 
 	PUTSH( 0x0B17, fzip) ;				// Version made by = 0x0B17

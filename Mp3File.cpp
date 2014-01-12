@@ -86,7 +86,7 @@ void Mp3File::GetFileData()
 string Mp3File::ConvertFilePath( const string& strPath)
 {
 	char pszTmp[ MAX_PATH] ;
-	strcpy( pszTmp, strPath.c_str()) ;
+	strcpy_s( pszTmp, strPath.c_str()) ;
 
 	string str ;
 	char* pszPtr = pszTmp ;
@@ -134,20 +134,23 @@ string Mp3File::ConvertFilePath( const string& strPath)
 ULONG Mp3File::UnixTime2DosTime( time_t* t)
 {
 	time_t	t_even ;
-	tm*	s ;         /* result of localtime() */
+	tm	s ;         /* result of localtime() */
 
 	t_even = (time_t)(((unsigned long)(*t) + 1) & (~1));
 	                              /* Round up to even seconds. */
-	s = localtime(&t_even);       /* Use local time since MSDOS does. */
-	if (s == (struct tm *)NULL) {
+	errno_t err = localtime_s(&s, &t_even);       /* Use local time since MSDOS does. */
+	if (err != 0) {
 	    /* time conversion error; use current time as emergency value
 	       (assuming that localtime() does at least accept this value!) */
 	    t_even = (time_t)(((unsigned long)time(NULL) + 1) & (~1));
-	    s = localtime(&t_even);
+	    err = localtime_s(&s, &t_even);
+		if (err != 0) {
+			return 0;
+		}
 	}
 
-	return GetDosTime(s->tm_year + 1900, s->tm_mon + 1, s->tm_mday,
-	               s->tm_hour, s->tm_min, s->tm_sec);
+	return GetDosTime(s.tm_year + 1900, s.tm_mon + 1, s.tm_mday,
+	               s.tm_hour, s.tm_min, s.tm_sec);
 }
 
 
