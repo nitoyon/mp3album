@@ -812,7 +812,8 @@ BOOL ZipDlg::ListDel()
 {
 	int intCount = ListView_GetItemCount( hwndList) ;
 	BOOL blnFocus = FALSE ;
-	for( int i = 0; i < intCount; i++)
+	int i;
+	for( i = 0; i < intCount; i++)
 	{
 		// ‘I‘ð‚³‚ê‚Ä‚¢‚½ê‡
 		if( ListView_GetItemState( hwndList, intCount - i - 1, LVIS_SELECTED))
