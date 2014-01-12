@@ -24,7 +24,7 @@ string GetDirName( const string& strPath)
 	char*	pszPointer = pszFile ;
 	strcpy_s( pszFile, strPath.c_str()) ;
 
-	for( int i = 0; i < strPath.size(); i++)
+	for( UINT i = 0; i < strPath.size(); i++)
 	{
 		pszPointer = pszFile + i ;
 

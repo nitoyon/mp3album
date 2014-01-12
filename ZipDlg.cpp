@@ -370,7 +370,7 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	// ¬Œ÷A‘Síœ
 	if(blnResult && Profile::blnClearOnSuccess)
 	{
-		for(int i = 0; i < vecFileList.size(); i++)
+		for(UINT i = 0; i < vecFileList.size(); i++)
 		{
 			delete vecFileList[ i];
 		}

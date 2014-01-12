@@ -29,7 +29,7 @@ void _cdecl fire( void* p)
 
 	// ProgressDlg から情報取得
 	vector<Mp3File*> vecMp3FileList ;
-	int i ;
+	UINT i ;
 	if( !GetFileAttr( &vecMp3FileList, pProgressDlg))
 	{
 		// エラー処理
@@ -47,11 +47,11 @@ void _cdecl fire( void* p)
 		pProgressDlg->OnZipFinish() ;
 		return ;
 	}
-	int intCount = vecMp3FileList.size() ;
+	UINT uiCount = vecMp3FileList.size() ;
 
 	// プログレスセット
 	ULONG  ulArchiveTotal = 0 ;
-	for( i = 0; i < intCount; i++)
+	for( i = 0; i < uiCount; i++)
 	{
 		ulArchiveTotal += vecMp3FileList[ i]->ulSize ;
 	}
@@ -74,7 +74,7 @@ void _cdecl fire( void* p)
 	ULONG lPrevTail = 0 ;
 	ulArchiveTotal = 0 ;
 
-	for( i = 0; i < intCount; i++)
+	for( i = 0; i < uiCount; i++)
 	{
 		Mp3File* pMp3File = vecMp3FileList[ i] ;
 		pMp3File->lLocalHeader = lPrevTail ;
@@ -157,7 +157,7 @@ void _cdecl fire( void* p)
 	ULONG	ulOffset = ftell( fzip) ;
 	ULONG	ulDirSize = ftell( fzip) ;
 
-	for( i = 0; i < intCount; i++)
+	for( i = 0; i < uiCount; i++)
 	{
 		OutputCentralDirectory( vecMp3FileList[ i], fzip) ;
 		intFileNum++ ;
