@@ -236,15 +236,15 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 	// 各種値設定
 	char pszZipPath[ MAX_PATH + 1] ;
 	GetDlgItemText( m_hWnd, IDC_ZIPPATH, pszZipPath, MAX_PATH) ;
-	string	strPath = File( pszZipPath).GetBasePath() ;
-	strPath = File( pszZipPath).GetFileName() ;
+	string strDir = File( pszZipPath).GetBasePath() ;
+	string strFileName = File( pszZipPath).GetFileName() ;
 
 	// ファイル名を足す (ディレクトリ || 入力なしの場合)
-	if( strPath == "")
+	if( strFileName == "")
 	{
 		if( Profile::intFile == Profile::FILESET)
 		{
-			strPath += Profile::strFile ;
+			strFileName = Profile::strFile ;
 		}
 		else
 		{
@@ -254,48 +254,46 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 			s = File( s).GetFileName() ;
 			if( s.find( ':') == string::npos)
 			{
-				strPath += s ;
+				strFileName = s ;
 			}
 			else
 			{
-				strPath += s.substr( 0, s.find( ':')) ;
+				strFileName = s.substr( 0, s.find( ':')) ;
 			}
 		}
 
 		// 拡張子を足す
-		strPath += Profile::strExtension ;
+		strFileName += Profile::strExtension ;
 	}
 	// '.' がない場合
-	else if( File( strPath).GetFileName().find( '.') == string::npos)
+	else if( strFileName.find( '.') == string::npos)
 	{
-		strPath += Profile::strExtension ;
+		strFileName += Profile::strExtension ;
 	}
 
-	if( File( strPath).GetBasePath() == "")	// ディレクトリの指定がない場合
+	if( strDir == "")	// ディレクトリの指定がない場合
 	{
 		switch( Profile::intFolder)
 		{
 			case Profile::SET:
-				strPath = Profile::strFolder + strPath ;
+				strDir = Profile::strFolder ;
 				break ;
 
 			case Profile::ONE:
 			{
-				string strDir = vecFileList[ 0]->GetFilePath() ;
+				strDir = vecFileList[ 0]->GetFilePath() ;
 				strDir = strDir.substr( 0, strDir.rfind( '\\') + 1) ;
-				strPath = strDir + strPath ;
 				break ;
 			}
 
 			case Profile::TWO:
 			{
-				string strDir = vecFileList[ 0]->GetFilePath() ;
+				strDir = vecFileList[ 0]->GetFilePath() ;
 				strDir = strDir.substr( 0, strDir.rfind( '\\')) ;
 				if(strDir.rfind( '\\') != string::npos)
 				{
 					strDir = strDir.substr( 0, strDir.rfind( '\\') + 1) ;
 				}
-				strPath = strDir + strPath ;
 				break ;
 			}
 
@@ -323,21 +321,23 @@ BOOL ZipDlg::OnOk( HWND hDlg, WPARAM wParam, LPARAM lParam)
 					CoTaskMemFree( idlist) ;
 
 					File file( pszPath) ;
-					string s = pszPath ;
-					if( s == "")
+					strDir = pszPath ;
+					if( strDir == "")
 					{
 						return TRUE ;
 					}
 					if( file.GetFileName() != "")
 					{
-						s += "\\" ;
+						strDir += "\\" ;
 					}
-					strPath = s + strPath ;
 				}
 				break ;
 			}
 		}
 	}
+
+	// パス決定
+	string strPath = strDir + strFileName;
 
 	// 存在確認
 	if( GetFileAttributes( strPath.c_str()) != 0xFFFFFFFF)
